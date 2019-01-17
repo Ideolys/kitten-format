@@ -10,17 +10,18 @@
       currency   : 'EUR',
       precision  : 2,
       converters : {
-        3    : "k",
-        2    : "h",
-        1    : "da",
-        0    : "",
-        '-1' : "d",
-        '-2' : "c",
-        '-3' : "m"
+        '15' : 'P',
+        '12' : 'T',
+        '9'  : 'G',
+        '6'  : 'M',
+        '3'  : 'k',
+        '0'  : '',
+        '-3' : 'm',
+        '-6' : 'μ',
+        '-9' : 'n'
       }
     }
-    }
-  ;
+  };
 
   /**
    * Set default options
@@ -119,6 +120,30 @@
 
     options = options || {};
 
+    var _power = options.power === null || options.power === undefined ? 0 : options.power;
+    var _unit  = options.unit;
+
+    if (!_unit) {
+      return value;
+    }
+
+    var _valueStr     = (value + '').split('.')[0];
+    var _valueLength  = _valueStr.length;
+    var _averagePower = Math.trunc(_valueLength / 4) * 4;
+
+    if (_averagePower !== 0) {
+      _averagePower--;
+    }
+
+    var _localeOptions = getLocale(options.locale);
+    var _converters    = _localeOptions.converters;
+    var _value         = value * Math.pow(10, -_averagePower);
+    var _result        = formatN(_value, options);
+
+    return _result + ' ' + _converters[_averagePower + _power] + _unit;
+  }
+
+  /*
     var _sourcePower = options.sourcePower || 0;
     var _targetPower = options.targetPower || 0;
     var _sourceUnit  = options.unit;
@@ -127,11 +152,13 @@
       return value;
     }
 
-    var _power  = Math.pow(10, Math.abs(_sourcePower) - _targetPower);
-    var _value  = _power < 0 || _sourcePower < 0 ? (value / _power) : (value * _power);
-    var _result = formatN(_value, options);
-    return _result + ' ' + power[_targetPower] + _sourceUnit;
-  }
+    var _localeOptions = getLocale(options.locale);
+    var _converters    = _localeOptions.converters;
+    var _power         = Math.pow(10, Math.abs(_sourcePower) - _targetPower);
+    var _value         = _power < 0 || _sourcePower < 0 ? (value / _power) : (value * _power);
+    var _result        = formatN(_value, options);
+    return _result + ' ' + _converters[_targetPower] + _sourceUnit;
+  */
 
   var formator = {};
 

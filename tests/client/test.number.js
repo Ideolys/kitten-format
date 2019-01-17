@@ -76,7 +76,7 @@ describe('number', () => {
     });
   });
 
-  describe.skip('averageN', () => {
+  describe('averageN', () => {
     it ('should be defined', () => {
       should(formator.averageN).be.a.Function();
       should(formator.averageNumber).be.a.Function();
@@ -94,30 +94,87 @@ describe('number', () => {
       should(formator.averageN(100)).eql(100);
     });
 
-    it('should average a number', () => {
-      console.log(formator.averageN(100.24, {
-        sourcePower : 0,
-        targetPower : 3,
-        unit        : 'g',
-        precision   : 1
-      }));
-
-      console.log(formator.averageN(100.24, {
-        sourcePower : 3,
-        targetPower : 0,
-        unit        : 'g',
-        precision   : 1
-      }));
-
-      console.log(formator.averageN(101.24, {
-        sourcePower : -3,
-        targetPower : 2,
-        unit        : 'g',
-        precision   : 1
-      }));
+    it('should average without precising the source power', () => {
+      should(formator.averageN(1001.24, {
+        unit      : 'g',
+        precision : 1
+      })).eql('1 kg');
     });
 
-    it.skip('should be fast', () => {
+    it('should average 10^0', () => {
+      should(formator.averageN(1001.24, {
+        power     : 0,
+        unit      : 'g',
+        precision : 1
+      })).eql('1 kg');
+    });
+
+    it('should average 10^3', () => {
+      should(formator.averageN(1001.24, {
+        power     : 3,
+        unit      : 'g',
+        precision : 1
+      })).eql('1 Mg');
+    });
+
+    it('should average 10^6', () => {
+      should(formator.averageN(1001.24, {
+        power     : 6,
+        unit      : 'g',
+        precision : 1
+      })).eql('1 Gg');
+    });
+
+    it('should average 10^9', () => {
+      should(formator.averageN(1001.24, {
+        power     : 9,
+        unit      : 'g',
+        precision : 1
+      })).eql('1 Tg');
+    });
+
+    it('should average 10^-3', () => {
+      should(formator.averageN(1001.24, {
+        power     : -3,
+        unit      : 'g',
+        precision : 1
+      })).eql('1 g');
+    });
+
+    it('should average 10^-6', () => {
+      should(formator.averageN(1001.24, {
+        power     : -6,
+        unit      : 'g',
+        precision : 1
+      })).eql('1 mg');
+    });
+
+    it('should average 10^-9', () => {
+      should(formator.averageN(1001.24, {
+        power     : -9,
+        unit      : 'g',
+        precision : 1
+      })).eql('1 μg');
+    });
+
+    it('should not average', () => {
+      should(formator.averageN(101.24, {
+        power     : -3,
+        unit      : 'g',
+        precision : 1
+      })).eql('101,2 mg');
+    });
+
+    it('should format for another locale', () => {
+      should(formator.averageN(101.24, {
+        locale    : 'en-GB',
+        power     : -3,
+        unit      : 'g',
+        precision : 1
+      })).eql('101.2 mg');
+    });
+
+    it('should be fast', () => {
       var _locales        = ['fr-FR', 'en-US', 'en-GB'];
       var _executionTimes = [];
 
@@ -128,6 +185,8 @@ describe('number', () => {
           _dataset.push([
             Math.random() * 10000, // value
             {
+              power     : Math.round((Math.random() * (0 - 3) + 3)) * 3,
+              unit      : 'g',
               precision : Math.round((Math.random() * (2 - 4) + 4)),
               locale    : _locales[Math.round((Math.random() * (0 - 2) + 2))]
             }
@@ -137,7 +196,7 @@ describe('number', () => {
         var _start = window.performance.now();
         for (var i = 0, len = _datasetlength; i < len; i++) {
           var _data = _dataset[i];
-          formator.formatN(_data[0], _data[1]);
+          formator.averageN(_data[0], _data[1]);
         }
         _executionTimes.push(window.performance.now() - _start);
       }
