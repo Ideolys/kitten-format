@@ -1,8 +1,8 @@
 {
-  "locale"     : "default",
-  "currency"   : "EUR",
-  "precision"  : 2,
-  "converters" : {
+  "locale"       : "default",
+  "currency"     : "EUR",
+  "precision"    : 2,
+  "unitPrefixes" : {
     "15" : "P",
     "12" : "T",
     "9"  : "G",

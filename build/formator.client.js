@@ -6,10 +6,10 @@
 
   var locales = {
     'default' : {
-      locale     : 'fr-FR',
-      currency   : 'EUR',
-      precision  : 2,
-      converters : {
+      locale       : 'fr-FR',
+      currency     : 'EUR',
+      precision    : 2,
+      unitPrefixes : {
         '15' : 'P',
         '12' : 'T',
         '9'  : 'G',
@@ -136,11 +136,11 @@
     }
 
     var _localeOptions = getLocale(options.locale);
-    var _converters    = _localeOptions.converters;
+    var _unitPrefixes  = _localeOptions.unitPrefixes;
     var _value         = value * Math.pow(10, -_averagePower);
     var _result        = formatN(_value, options);
 
-    return _result + ' ' + _converters[_averagePower + _power] + _unit;
+    return _result + ' ' + _unitPrefixes[_averagePower + _power] + _unit;
   }
 
   /*
