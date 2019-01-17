@@ -1,0 +1,14 @@
+{
+  "locale"     : "default",
+  "currency"   : "EUR",
+  "precision"  : 2,
+  "converters" : {
+    "3"  : "k",
+    "2"  : "h",
+    "1"  : "da",
+    "0"  : "",
+    "-1" : "d",
+    "-2" : "c",
+    "-3" : "m"
+  }
+}

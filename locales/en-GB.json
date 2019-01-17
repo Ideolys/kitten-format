@@ -1,0 +1,5 @@
+{
+  "extends"  : "default",
+  "locale"   : "en-GB",
+  "currency" : "GBD"
+}
