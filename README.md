@@ -2,12 +2,12 @@
 
 Fast formatters for browsers.
 
-# Getting Started
+## Getting Started
 
 1. `npm install kitten-format`
 1. In your code `kittenFormat.setLocales([...])`
 
-# Installation
+## Installation
 
 Two builds are available :
   - Default version: `kittenFormat.client.js`
@@ -15,15 +15,15 @@ Two builds are available :
 
 Locales are not shipped with the builds. You must select the locales you want. Locales are defined in `locales/`.
 
-## Available locales
+**Available locales**
 Lang              | Locales
 ------------------|--------
 French            | `fr-FR`
 English GB        | `en-GB`
 
-# Use cases
+## Use cases
 
-## kittenFormat.setOptions
+### kittenFormat.setOptions
 
 Set default locale options.
 
@@ -46,7 +46,7 @@ Set default locale options.
   });
 ```
 
-## kittenFormat.setLocales
+### kittenFormat.setLocales
 
 Load locales to use by kittenFormat. Locales are defined in `build/locales`. **The first loaded locale is set as default.**
 
@@ -60,7 +60,7 @@ Load locales to use by kittenFormat. Locales are defined in `build/locales`. **T
   );
 ```
 
-## Numbers
+### Numbers
 
 ### kittenFormat.averageN (kittenFormat.averageNumber)
 
@@ -143,7 +143,7 @@ Convert the first char of a string to uppercase.
   // res: 'Abc'
 ```
 
-## Currencies
+### Currencies
 
 ### kittenFormat.formatC (kittenFormat.formatCurrency)
 
