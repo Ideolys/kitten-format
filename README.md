@@ -16,6 +16,7 @@ Two builds are available :
 Locales are not shipped with the builds. You must select the locales you want. Locales are defined in `locales/`.
 
 **Available locales**
+
 Lang              | Locales
 ------------------|--------
 French            | `fr-FR`
