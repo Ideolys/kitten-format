@@ -6,16 +6,16 @@ import {
   upperCaseFirstChar
 } from './lib/string';
 
-var formator = {};
+var kittenFormat = {};
 
-formator.setOptions = setOptions;
-formator.setLocales = setLocales;
+kittenFormat.setOptions = setOptions;
+kittenFormat.setLocales = setLocales;
 
-formator.averageN      = averageN;
-formator.averageNumber = averageN;
+kittenFormat.averageN      = averageN;
+kittenFormat.averageNumber = averageN;
 
-formator.lowerCase          = lowerCase;
-formator.upperCase          = upperCase;
-formator.upperCaseFirstChar = upperCaseFirstChar;
+kittenFormat.lowerCase          = lowerCase;
+kittenFormat.upperCase          = upperCase;
+kittenFormat.upperCaseFirstChar = upperCaseFirstChar;
 
-export default formator;
+export default kittenFormat;

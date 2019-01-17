@@ -1,13 +1,13 @@
-import formator           from './index';
+import kittenFormat       from './index';
 import { formatC, convC } from './lib/currency';
 import { formatN }        from './lib/number';
 
-formator.formatC         = formatC;
-formator.formatCurrency  = formatC;
-formator.convC           = convC;
-formator.convertCurrency = convC;
+kittenFormat.formatC         = formatC;
+kittenFormat.formatCurrency  = formatC;
+kittenFormat.convC           = convC;
+kittenFormat.convertCurrency = convC;
 
-formator.formatN      = formatN;
-formator.formatNumber = formatN;
+kittenFormat.formatN      = formatN;
+kittenFormat.formatNumber = formatN;
 
-export default formator;
+export default kittenFormat;

@@ -2,75 +2,75 @@ describe('String', () => {
 
   describe('lowerCase', () => {
     it ('should be defined', () => {
-      should(formator.lowerCase).be.a.Function();
+      should(kittenFormat.lowerCase).be.a.Function();
     });
 
     it('should not lower case a string', () => {
-      should(formator.lowerCase()).eql(undefined);
+      should(kittenFormat.lowerCase()).eql(undefined);
     });
 
     it('should not lower case a string', () => {
-      should(formator.lowerCase(null)).eql(null);
+      should(kittenFormat.lowerCase(null)).eql(null);
     });
 
     it('should not lower case a number', () => {
-      should(formator.lowerCase(100)).eql(100);
+      should(kittenFormat.lowerCase(100)).eql(100);
     });
 
     it('should lower case a string', () => {
-      should(formator.lowerCase('AbCdEF')).eql('abcdef');
+      should(kittenFormat.lowerCase('AbCdEF')).eql('abcdef');
     });
   });
 
   describe('upperCase', () => {
     it ('should be defined', () => {
-      should(formator.upperCase).be.a.Function();
+      should(kittenFormat.upperCase).be.a.Function();
     });
 
     it('should not upper case a string', () => {
-      should(formator.upperCase()).eql(undefined);
+      should(kittenFormat.upperCase()).eql(undefined);
     });
 
     it('should not upper case a string', () => {
-      should(formator.upperCase(null)).eql(null);
+      should(kittenFormat.upperCase(null)).eql(null);
     });
 
     it('should not upper case a number', () => {
-      should(formator.upperCase(100)).eql(100);
+      should(kittenFormat.upperCase(100)).eql(100);
     });
 
     it('should upper case a string', () => {
-      should(formator.upperCase('AbCdef')).eql('ABCDEF');
+      should(kittenFormat.upperCase('AbCdef')).eql('ABCDEF');
     });
   });
 
   describe('upperCaseFirstChar', () => {
     it ('should be defined', () => {
-      should(formator.upperCaseFirstChar).be.a.Function();
+      should(kittenFormat.upperCaseFirstChar).be.a.Function();
     });
 
     it('should not upper case first char of a string', () => {
-      should(formator.upperCaseFirstChar()).eql(undefined);
+      should(kittenFormat.upperCaseFirstChar()).eql(undefined);
     });
 
     it('should not upper case first char of a string', () => {
-      should(formator.upperCaseFirstChar(null)).eql(null);
+      should(kittenFormat.upperCaseFirstChar(null)).eql(null);
     });
 
     it('should not upper case first char of a number', () => {
-      should(formator.upperCaseFirstChar(100)).eql(100);
+      should(kittenFormat.upperCaseFirstChar(100)).eql(100);
     });
 
     it('should not upper case first chart of empty string', () => {
-      should(formator.upperCaseFirstChar('')).eql('');
+      should(kittenFormat.upperCaseFirstChar('')).eql('');
     });
 
     it('should upper case first char of a string', () => {
-      should(formator.upperCaseFirstChar('abcDEf')).eql('Abcdef');
+      should(kittenFormat.upperCaseFirstChar('abcDEf')).eql('Abcdef');
     });
 
     it('should upper case first char of a string : 1 length', () => {
-      should(formator.upperCaseFirstChar('a')).eql('A');
+      should(kittenFormat.upperCaseFirstChar('a')).eql('A');
     });
   });
 

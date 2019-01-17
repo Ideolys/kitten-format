@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.formator = factory());
+  (global = global || self, global.kittenFormat = factory());
 }(this, function () { 'use strict';
 
   var locales = {
@@ -200,17 +200,17 @@
     return value[0].toUpperCase() + lowerCase(value.slice(1, value.length));
   }
 
-  var formator = {};
+  var kittenFormat = {};
 
-  formator.setOptions = setOptions;
-  formator.setLocales = setLocales;
+  kittenFormat.setOptions = setOptions;
+  kittenFormat.setLocales = setLocales;
 
-  formator.averageN      = averageN;
-  formator.averageNumber = averageN;
+  kittenFormat.averageN      = averageN;
+  kittenFormat.averageNumber = averageN;
 
-  formator.lowerCase          = lowerCase;
-  formator.upperCase          = upperCase;
-  formator.upperCaseFirstChar = upperCaseFirstChar;
+  kittenFormat.lowerCase          = lowerCase;
+  kittenFormat.upperCase          = upperCase;
+  kittenFormat.upperCaseFirstChar = upperCaseFirstChar;
 
   var registerdFormatters$1 = {};
 
@@ -284,14 +284,14 @@
     return _value * _rates[_target];
   }
 
-  formator.formatC         = formatC;
-  formator.formatCurrency  = formatC;
-  formator.convC           = convC;
-  formator.convertCurrency = convC;
+  kittenFormat.formatC         = formatC;
+  kittenFormat.formatCurrency  = formatC;
+  kittenFormat.convC           = convC;
+  kittenFormat.convertCurrency = convC;
 
-  formator.formatN      = formatN;
-  formator.formatNumber = formatN;
+  kittenFormat.formatN      = formatN;
+  kittenFormat.formatNumber = formatN;
 
-  return formator;
+  return kittenFormat;
 
 }));

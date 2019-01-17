@@ -11,27 +11,27 @@ describe('number', () => {
 
   describe('formatN', () => {
     it ('should be defined', () => {
-      should(formator.formatN).be.a.Function();
-      should(formator.formatNumber).be.a.Function();
+      should(kittenFormat.formatN).be.a.Function();
+      should(kittenFormat.formatNumber).be.a.Function();
     });
 
     it('should format a number with default locale and precision', () => {
-      should(sanitizeSpaces(formator.formatN(20000.345))).eql('20 000,35');
+      should(sanitizeSpaces(kittenFormat.formatN(20000.345))).eql('20 000,35');
     });
 
     it('should not format a number if no value is given', () => {
-      should(formator.formatN()).eql(undefined);
+      should(kittenFormat.formatN()).eql(undefined);
     });
 
     it('should not format a number if null value is given', () => {
-      should(formator.formatN(null)).eql(null);
+      should(kittenFormat.formatN(null)).eql(null);
     });
 
     it('should format a number with locale "en-US" and default precision', () => {
       var _options = {
         locale : 'en-US'
       };
-      should(sanitizeSpaces(formator.formatN(20000, _options))).eql('20,000');
+      should(sanitizeSpaces(kittenFormat.formatN(20000, _options))).eql('20,000');
     });
 
     it('should format a number with locale "en-US" and precision', () => {
@@ -39,7 +39,7 @@ describe('number', () => {
         locale    : 'en-US',
         precision : 3
       };
-      should(sanitizeSpaces(formator.formatN(20000.3456, _options))).eql('20,000.346');
+      should(sanitizeSpaces(kittenFormat.formatN(20000.3456, _options))).eql('20,000.346');
     });
 
     it('should be fast', () => {
@@ -62,7 +62,7 @@ describe('number', () => {
         var _start = window.performance.now();
         for (var i = 0, len = _datasetlength; i < len; i++) {
           var _data = _dataset[i];
-          formator.formatN(_data[0], _data[1]);
+          kittenFormat.formatN(_data[0], _data[1]);
         }
         _executionTimes.push(window.performance.now() - _start);
       }
@@ -78,31 +78,31 @@ describe('number', () => {
 
   describe('averageN', () => {
     it ('should be defined', () => {
-      should(formator.averageN).be.a.Function();
-      should(formator.averageNumber).be.a.Function();
+      should(kittenFormat.averageN).be.a.Function();
+      should(kittenFormat.averageNumber).be.a.Function();
     });
 
     it('should not average a number if no value is given', () => {
-      should(formator.averageN()).eql(undefined);
+      should(kittenFormat.averageN()).eql(undefined);
     });
 
     it('should not average a number if null value is given', () => {
-      should(formator.averageN(null)).eql(null);
+      should(kittenFormat.averageN(null)).eql(null);
     });
 
     it('should not average a number if no unit is given', () => {
-      should(formator.averageN(100)).eql(100);
+      should(kittenFormat.averageN(100)).eql(100);
     });
 
     it('should average without precising the source power', () => {
-      should(formator.averageN(1001.24, {
+      should(kittenFormat.averageN(1001.24, {
         unit      : 'g',
         precision : 1
       })).eql('1 kg');
     });
 
     it('should average 10^0', () => {
-      should(formator.averageN(1001.24, {
+      should(kittenFormat.averageN(1001.24, {
         power     : 0,
         unit      : 'g',
         precision : 1
@@ -110,7 +110,7 @@ describe('number', () => {
     });
 
     it('should average 10^3', () => {
-      should(formator.averageN(1001.24, {
+      should(kittenFormat.averageN(1001.24, {
         power     : 3,
         unit      : 'g',
         precision : 1
@@ -118,7 +118,7 @@ describe('number', () => {
     });
 
     it('should average 10^6', () => {
-      should(formator.averageN(1001.24, {
+      should(kittenFormat.averageN(1001.24, {
         power     : 6,
         unit      : 'g',
         precision : 1
@@ -126,7 +126,7 @@ describe('number', () => {
     });
 
     it('should average 10^9', () => {
-      should(formator.averageN(1001.24, {
+      should(kittenFormat.averageN(1001.24, {
         power     : 9,
         unit      : 'g',
         precision : 1
@@ -134,7 +134,7 @@ describe('number', () => {
     });
 
     it('should average 10^-3', () => {
-      should(formator.averageN(1001.24, {
+      should(kittenFormat.averageN(1001.24, {
         power     : -3,
         unit      : 'g',
         precision : 1
@@ -142,7 +142,7 @@ describe('number', () => {
     });
 
     it('should average 10^-6', () => {
-      should(formator.averageN(1001.24, {
+      should(kittenFormat.averageN(1001.24, {
         power     : -6,
         unit      : 'g',
         precision : 1
@@ -150,7 +150,7 @@ describe('number', () => {
     });
 
     it('should average 10^-9', () => {
-      should(formator.averageN(1001.24, {
+      should(kittenFormat.averageN(1001.24, {
         power     : -9,
         unit      : 'g',
         precision : 1
@@ -158,7 +158,7 @@ describe('number', () => {
     });
 
     it('should not average', () => {
-      should(formator.averageN(101.24, {
+      should(kittenFormat.averageN(101.24, {
         power     : -3,
         unit      : 'g',
         precision : 1
@@ -166,7 +166,7 @@ describe('number', () => {
     });
 
     it('should format for another locale', () => {
-      should(formator.averageN(101.24, {
+      should(kittenFormat.averageN(101.24, {
         locale    : 'en-GB',
         power     : -3,
         unit      : 'g',
@@ -196,7 +196,7 @@ describe('number', () => {
         var _start = window.performance.now();
         for (var i = 0, len = _datasetlength; i < len; i++) {
           var _data = _dataset[i];
-          formator.averageN(_data[0], _data[1]);
+          kittenFormat.averageN(_data[0], _data[1]);
         }
         _executionTimes.push(window.performance.now() - _start);
       }

@@ -1,3 +1,3 @@
-import formator from './index';
+import kittenFormat from './index';
 
-export default formator;
+export default kittenFormat;

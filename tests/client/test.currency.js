@@ -11,43 +11,43 @@ describe('currency', () => {
 
   describe('formatC', () => {
     it ('should be defined', () => {
-      should(formator.formatC).be.a.Function();
-      should(formator.formatCurrency).be.a.Function();
+      should(kittenFormat.formatC).be.a.Function();
+      should(kittenFormat.formatCurrency).be.a.Function();
     });
 
     it('should format a currency to default locale "fr-FR" and currency "EUR"', () => {
-      should(sanitizeSpaces(formator.formatC(200))).eql('200,00 €');
+      should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 €');
     });
 
     it('should not format a currency if no value is given', () => {
-      should(formator.formatC()).eql(undefined);
+      should(kittenFormat.formatC()).eql(undefined);
     });
 
     it('should not format a currency if null value is given', () => {
-      should(formator.formatC(null)).eql(null);
+      should(kittenFormat.formatC(null)).eql(null);
     });
 
     it('should format a currency to option locale and currency "EUR"', () => {
-      should(formator.formatC(200, {
+      should(kittenFormat.formatC(200, {
         locale : 'en-GB'
       })).eql('€200.00');
     });
 
     it('should format a currency to default locale and currency "GBP"', () => {
-      should(sanitizeSpaces(formator.formatC(200, {
+      should(sanitizeSpaces(kittenFormat.formatC(200, {
         currency : 'GBP'
       }))).eql('200,00 £GB');
     });
 
     it('should format a currency to default locale and currency with precision equals to 3', () => {
-      should(sanitizeSpaces(formator.formatC(200.3456, {
+      should(sanitizeSpaces(kittenFormat.formatC(200.3456, {
         precision : 3
       }))).eql('200,346 €');
     });
 
     it('should format a currency to locale "en-GB", currency "GBP" and precision 1', () => {
       // For currency, precision is a minimum
-      should(sanitizeSpaces(formator.formatC(200.14, {
+      should(sanitizeSpaces(kittenFormat.formatC(200.14, {
         locale    : 'en-GB',
         currency  : 'GBP',
         precision : 1
@@ -76,7 +76,7 @@ describe('currency', () => {
         var _start = window.performance.now();
         for (var i = 0, len = _datasetlength; i < len; i++) {
           var _data = _dataset[i];
-          formator.formatC(_data[0], _data[1]);
+          kittenFormat.formatC(_data[0], _data[1]);
         }
         _executionTimes.push(window.performance.now() - _start);
       }
@@ -92,16 +92,16 @@ describe('currency', () => {
 
   describe('convC', () => {
     it('should be defined', () => {
-      should(formator.convC).be.a.Function();
-      should(formator.convertCurrency).be.a.Function();
+      should(kittenFormat.convC).be.a.Function();
+      should(kittenFormat.convertCurrency).be.a.Function();
     });
 
     it('should not convert a currency if no value is given', () => {
-      should(formator.convC()).eql(undefined);
+      should(kittenFormat.convC()).eql(undefined);
     });
 
     it('should not convert a currency if null value is given', () => {
-      should(formator.convC(null)).eql(null);
+      should(kittenFormat.convC(null)).eql(null);
     });
 
     it('should format a currency from "EUR" to "GBP"', () => {
@@ -113,7 +113,7 @@ describe('currency', () => {
           USD : 2
         }
       };
-      should(formator.convC(200, _options)).eql(400);
+      should(kittenFormat.convC(200, _options)).eql(400);
     });
 
     it('should format a currency from default currency "EUR" to "GBP"', () => {
@@ -124,7 +124,7 @@ describe('currency', () => {
           USD : 2
         }
       };
-      should(formator.convC(200, _options)).eql(400);
+      should(kittenFormat.convC(200, _options)).eql(400);
     });
 
     it('should not format currency if no target is given', () => {
@@ -134,14 +134,14 @@ describe('currency', () => {
           USD : 2
         }
       };
-      should(formator.convC(200, _options)).eql(200);
+      should(kittenFormat.convC(200, _options)).eql(200);
     });
 
     it('should not format currency if no rates is given', () => {
       var _options = {
         target : 'USD'
       };
-      should(formator.convC(200, _options)).eql(200);
+      should(kittenFormat.convC(200, _options)).eql(200);
     });
 
     it('should not format currency if no source rate is given', () => {
@@ -149,7 +149,7 @@ describe('currency', () => {
         target : 'USD',
         rates  : {}
       };
-      should(formator.convC(200, _options)).eql(200);
+      should(kittenFormat.convC(200, _options)).eql(200);
     });
 
     it('should not format currency if no target rate is given', () => {
@@ -159,7 +159,7 @@ describe('currency', () => {
           EUR : 1
         }
       };
-      should(formator.convC(200, _options)).eql(200);
+      should(kittenFormat.convC(200, _options)).eql(200);
     });
 
     it('should be fast', () => {
@@ -189,7 +189,7 @@ describe('currency', () => {
           var _rates = {};
           _rates[_data[1]] = _data[3];
           _rates[_data[2]] = _data[4];
-          formator.convC(_data[0], { source : _data[1], target : _data[2], rates : _rates });
+          kittenFormat.convC(_data[0], { source : _data[1], target : _data[2], rates : _rates });
         }
         _executionTimes.push(window.performance.now() - _start);
       }
