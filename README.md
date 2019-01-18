@@ -15,6 +15,8 @@ Two builds are available :
 
 Locales are not shipped with the builds. You must select the locales you want. Locales are defined in `locales/`.
 
+Locale auto-register itself.
+
 **Available locales**
 
 Lang              | Locales
@@ -45,20 +47,6 @@ Set default locale options.
       '-9' : 'n'
     }
   });
-```
-
-### kittenFormat.setLocales
-
-Load locales to use by kittenFormat. Locales are defined in `build/locales`. **The first loaded locale is set as default.**
-
-```js
-  kittenFormat.setLocales(
-    [
-      { locale : 'en-GB', ... },
-      { locale : 'en-US', ... },
-      ...
-    ]
-  );
 ```
 
 ### Numbers
