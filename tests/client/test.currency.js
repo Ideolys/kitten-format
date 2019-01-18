@@ -30,7 +30,7 @@ describe('currency', () => {
     it('should format a currency to option locale and currency "EUR"', () => {
       should(kittenFormat.formatC(200, {
         locale : 'en-GB'
-      })).eql('€200.00');
+      })).eql('£200.00');
     });
 
     it('should format a currency to default locale and currency "GBP"', () => {

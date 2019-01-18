@@ -1,5 +1,7 @@
-const fs   = require('fs');
-const path = require('path');
+const fs     = require('fs');
+const path   = require('path');
+const rollup = require('rollup');
+const terser = require('rollup-plugin-terser');
 
 /**
  * Scan a directory and all sub-directory
@@ -54,79 +56,46 @@ function walkDirSync (dir, extension) {
 }
 
 
-/**
- * Merge two objects
- * @param {Object} parent
- * @param {Object} child
- */
-function merge (parent, child) {
-  if (typeof parent !== 'object' || typeof child !== 'object') {
-    return;
-  }
-
-  var _keys = Object.keys(child);
-  for (var i = 0; i < _keys.length; i++) {
-    var _key = _keys[i];
-    if (parent[_key] && typeof child[_key] === 'object') {
-      parent[_key] = merge(parent[_key], child[_key]);
-    }
-    else {
-      parent[_key] = child[_key];
-    }
-  }
-
-  return parent;
-};
-
-/**
- * Clone a value
- * @param {*} value
- */
-function clone (value) {
-  return JSON.parse(JSON.stringify(value));
-}
-
-
 const builtLocalesPath = path.join(__dirname, 'build', 'locales');
 const localesPath      = path.join(__dirname, 'locales');
-const locales          = walkDirSync(localesPath, 'json');
-const builtLocales     = {};
-const localesToExtend  = [];
+const locales          = walkDirSync(localesPath, 'js');
 
-for (var i = 0; i < locales.length; i++) {
-  var _locale          = require(locales[i]);
-  var _builtLocalePath = path.join(builtLocalesPath, _locale.locale + '.json');
-  if (!_locale.extends) {
-    fs.writeFileSync(_builtLocalePath, JSON.stringify(_locale));
+/**
+ * Build
+ * @param {String} input file to process
+ * @param {String} outputFile where to write ouput
+ * @param {String} locale  file name
+ */
+async function build(input, outputFile, locale) {
+  // create a bundle
+  const bundle = await rollup.rollup({
+    input,
+    plugins : [
+      terser.terser()
+    ],
+    external : 'kitten-format'
+  });
 
-    builtLocales[_locale.locale] = _locale;
-    continue;
+  const outputOptions = {
+    file    : outputFile,
+    format  : 'umd',
+    name    : 'kittenFormat_' + locale,
+    globals : {
+      'kitten-format' : 'kittenFormat'
+    }
   }
+  // generate code
+  await bundle.generate(outputOptions);
 
-  localesToExtend.push(_locale);
+  // or write the bundle to disk
+  await bundle.write(outputOptions);
 }
 
-while (localesToExtend.length) {
-  var _locale             = localesToExtend.shift();
-  var _localeExtendedName = _locale.extends;
-
-  if (!builtLocales[_localeExtendedName] && (!_locale.nbTries || _locale.nbTries < 10)) {
-    if (!_locale.nbTries) {
-      _locale.nbTries = 0;
-    }
-    _locale.nbTries++;
-    localesToExtend.push(_locale);
+for (var i = 0; i < locales.length; i++) {
+  if (/_default/.test(locales[i])) {
     continue;
   }
 
-  if (!builtLocales[_localeExtendedName] && _locale.nbTries >= 10) {
-    console.log(`Error: Cannot extend locale "${ _localeExtendedName }" because it does not exist!`);
-  }
-
-  delete _locale.nbTries;
-  var _builtLocale             = clone(builtLocales[_localeExtendedName]);
-  var _extendedLocale          = merge(_builtLocale, _locale);
-  var _builtLocalePath         = path.join(builtLocalesPath, _locale.locale + '.json');
-  builtLocales[_locale.locale] = _extendedLocale;
-  fs.writeFileSync(_builtLocalePath, JSON.stringify(_extendedLocale));
+  var _locale = path.basename(locales[i], '.js');
+  build(locales[i], path.join(builtLocalesPath, _locale + '.js'), _locale.replace('-', '_'));
 }

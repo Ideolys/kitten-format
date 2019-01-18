@@ -1,6 +1,6 @@
 {
   "name": "kitten-format",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fast formatters for browsers",
   "main": "build/kitternFormat.client.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "build-client": "./node_modules/.bin/rollup entry.client.js --file build/kittenFormat.client.js --format umd --name kittenFormat",
     "build-client-minified": "./node_modules/.bin/rollup -c rollup-min.config.js",
     "build": "npm run build-locales & npm run build-client & npm run build-client-minified",
-    "test-client": "npm run build-client & ./node_modules/.bin/karma start tests/client/karma.conf.js"
+    "test-client": "npm run build & ./node_modules/.bin/karma start tests/client/karma.conf.js"
   },
   "author": "Ideolys",
   "license": "Apache-2.0",

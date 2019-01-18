@@ -4,23 +4,25 @@
   (global = global || self, global.kittenFormat = factory());
 }(this, function () { 'use strict';
 
-  var locales = {
-    'default' : {
-      locale       : 'fr-FR',
-      currency     : 'EUR',
-      precision    : 2,
-      unitPrefixes : {
-        '15' : 'P',
-        '12' : 'T',
-        '9'  : 'G',
-        '6'  : 'M',
-        '3'  : 'k',
-        '0'  : '',
-        '-3' : 'm',
-        '-6' : 'μ',
-        '-9' : 'n'
-      }
+  var defaultLocale = {
+    locale       : 'fr-FR',
+    currency     : 'EUR',
+    precision    : 2,
+    unitPrefixes : {
+      15   : 'P',
+      12   : 'T',
+      9    : 'G',
+      6    : 'M',
+      3    : 'k',
+      0    : '',
+      '-3' : 'm',
+      '-6' : 'μ',
+      '-9' : 'n'
     }
+  };
+
+  var locales = {
+    default : defaultLocale
   };
 
   /**
@@ -28,24 +30,19 @@
    * @param {Object} optionsValue
    */
   function setOptions (optionsValue) {
-    locales['default'] = optionsValue;
+    locales[optionsValue.locale] = optionsValue;
   }
 
   /**
    * Set locales to load
-   * @param {Array} locales
+   * @param {Object} locale
    */
-  function setLocales (localesValue) {
-    if (!localesValue.length) {
+  function locale (locale) {
+    if (!locale) {
       return;
     }
 
-    // First given locale is the default one
-    setOptions(localesValue[0]);
-
-    for (var i = 1; i < localesValue.length; i++) {
-      locales[localesValue[i].locale] = localesValue[i];
-    }
+    setOptions(locale);
   }
 
   /**
@@ -76,10 +73,10 @@
    * @param {Int} precision ex: 2
    * @returns {Intl}
    */
-  function getFormatter (locale, precision) {
-    var _key = locale + ':' + precision;
+  function getFormatter (locale$$1, precision) {
+    var _key = locale$$1 + ':' + precision;
     if (!registerdFormatters[_key]) {
-      registerdFormatters[_key] = new Intl.NumberFormat(locale, {
+      registerdFormatters[_key] = new Intl.NumberFormat(locale$$1, {
         maximumFractionDigits : precision
       });
     }
@@ -203,7 +200,7 @@
   var kittenFormat = {};
 
   kittenFormat.setOptions = setOptions;
-  kittenFormat.setLocales = setLocales;
+  kittenFormat.locale     = locale;
 
   kittenFormat.averageN      = averageN;
   kittenFormat.averageNumber = averageN;
@@ -221,13 +218,13 @@
    * @param {Int} precision ex: 2
    * @returns {Intl}
    */
-  function getFormatter$1 (locale, currency, precision) {
+  function getFormatter$1 (locale$$1, currency, precision) {
     if (precision < 2) {
       precision = 2;
     }
-    var _key = locale + ':' + currency + ':' + precision;
+    var _key = locale$$1 + ':' + currency + ':' + precision;
     if (!registerdFormatters$1[_key]) {
-      registerdFormatters$1[_key] = new Intl.NumberFormat(locale, {
+      registerdFormatters$1[_key] = new Intl.NumberFormat(locale$$1, {
         maximumFractionDigits : precision,
         currency              : currency,
         style                 : 'currency'

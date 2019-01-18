@@ -1,5 +1,5 @@
-import { setOptions, setLocales } from './lib/options';
-import { averageN }               from './lib/number';
+import { setOptions, locale } from './lib/options';
+import { averageN }           from './lib/number';
 import {
   lowerCase,
   upperCase,
@@ -9,7 +9,7 @@ import {
 var kittenFormat = {};
 
 kittenFormat.setOptions = setOptions;
-kittenFormat.setLocales = setLocales;
+kittenFormat.locale     = locale;
 
 kittenFormat.averageN      = averageN;
 kittenFormat.averageNumber = averageN;
