@@ -24,12 +24,6 @@
   var locales = {
     default : defaultLocale
   };
-  var browserLocale = detectLocale();
-
-  // Set default locale as browser one if exists
-  if (browserLocale !== locales.default.locale && locales[browserLocale]) {
-    setOptions(locales[browserLocale]);
-  }
 
   /**
    * Set default options
@@ -49,6 +43,13 @@
     }
 
     locales[locale.locale] = locale;
+
+    var browserLocale = detectLocale();
+
+    // Set default locale as browser one if exists
+    if (browserLocale !== locales.default.locale && locales[browserLocale]) {
+      setOptions(locales[browserLocale]);
+    }
   }
 
   /**
