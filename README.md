@@ -16,6 +16,8 @@ Locales are not shipped with the builds. You must select the locales you want. L
 
 Locale auto-register itself.
 
+At runtime, kitten-format will try to set the default locale as the one defined by the browser.
+
 **Available locales**
 
 Lang              | Locales
