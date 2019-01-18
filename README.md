@@ -4,8 +4,7 @@ Fast formatters for browsers.
 
 ## Getting Started
 
-1. `npm install kitten-format`
-1. In your code `kittenFormat.setLocales([...])`
+`npm install kitten-format`
 
 ## Installation
 
