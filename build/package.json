@@ -1,15 +1,16 @@
 {
   "name": "@ideolys-software/kitten-format",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Fast formatters for browsers",
   "main": "kittenFormat.client.js",
   "author": "Ideolys",
   "license": "Apache-2.0",
-  "publishConfig" : {
+  "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Ideolys/kitten-format.git"
-  }
+  },
+  "private": false
 }
