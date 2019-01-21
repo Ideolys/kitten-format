@@ -94,13 +94,6 @@
     return _lang;
   }
 
-  /**
-   * Fixed decimal part to precision
-   * @param {Number} value
-   * @param {Int} precision
-   * @returns {Number}
-   */
-
   var registerdFormatters = {};
 
   /**
@@ -169,27 +162,25 @@
       return value;
     }
 
-    var _value        = 0;
+    var _value        = value;
     var _averagePower = 0;
-    if (value < 1) {
-      _value = value * Math.pow(10, 3);
+
+    if (value >= 1) {
+      var _valueStr    = (value + '').split('.')[0];
+      var _valueLength = _valueStr.length;
+      _averagePower    = Math.trunc(_valueLength / 3) * 3;
+      _value           = value * Math.pow(10, -_averagePower);
+    }
+
+    if (_value < 1) {
+      _value = _value * Math.pow(10, 3);
       _power -= 3;
 
       if (_power === -0) {
         _power = 0;
       }
     }
-    else {
-      var _valueStr     = (value + '').split('.')[0];
-      var _valueLength  = _valueStr.length;
-      _averagePower     = Math.trunc(_valueLength / 4) * 4;
 
-      if (_averagePower !== 0) {
-        _averagePower--;
-      }
-
-       _value = value * Math.pow(10, -_averagePower);
-    }
     var _localeOptions = getLocale(options.locale);
     var _unitPrefixes  = _localeOptions.unitPrefixes;
     var _result        = formatN(_value, options);

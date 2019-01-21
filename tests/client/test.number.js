@@ -215,10 +215,19 @@ describe('number', () => {
     });
 
     it('should average if the power is too high', () => {
-      should(kittenFormat.averageN(123100377474, {
+      should(kittenFormat.averageN(12345678900, {
+        power     : 12,
         unit      : 'g',
         precision : 2
-      })).eql('1,23 10^11g');
+      })).eql('12,35 10^21g');
+    });
+
+    it('should average', () => {
+      should(kittenFormat.averageN(33026721.53165768, {
+        power     : 3,
+        unit      : 'g',
+        precision : 2
+      })).eql('33,03 kT');
     });
 
     it('should be fast', () => {
