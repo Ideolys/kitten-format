@@ -169,20 +169,33 @@
       return value;
     }
 
-    var _valueStr     = (value + '').split('.')[0];
-    var _valueLength  = _valueStr.length;
-    var _averagePower = Math.trunc(_valueLength / 4) * 4;
+    var _value        = 0;
+    var _averagePower = 0;
+    if (value < 1) {
+      _value = value * Math.pow(10, 3);
+      _power -= 3;
 
-    if (_averagePower !== 0) {
-      _averagePower--;
+      if (_power === -0) {
+        _power = 0;
+      }
     }
+    else {
+      var _valueStr     = (value + '').split('.')[0];
+      var _valueLength  = _valueStr.length;
+      _averagePower     = Math.trunc(_valueLength / 4) * 4;
 
+      if (_averagePower !== 0) {
+        _averagePower--;
+      }
+
+       _value = value * Math.pow(10, -_averagePower);
+    }
     var _localeOptions = getLocale(options.locale);
     var _unitPrefixes  = _localeOptions.unitPrefixes;
-    var _value         = value * Math.pow(10, -_averagePower);
     var _result        = formatN(_value, options);
 
     var _unitPrefix = _unitPrefixes[_averagePower + _power];
+
     if (_unitPrefix === undefined) {
       _unitPrefix = '10^' + (_averagePower + _power) + _unit;
     }

@@ -117,6 +117,22 @@ describe('number', () => {
       })).eql('1 kg');
     });
 
+    it('should average if it is < 1', () => {
+      should(kittenFormat.averageN(0.243, {
+        power     : 3,
+        unit      : 'g',
+        precision : 1
+      })).eql('243 g');
+    });
+
+    it('should average if it is < 1 : T', () => {
+      should(kittenFormat.averageN(0.1, {
+        power     : 6,
+        unit      : 'g',
+        precision : 1
+      })).eql('100 kg');
+    });
+
     it('should average 10^3', () => {
       should(kittenFormat.averageN(1001.24, {
         power     : 0,
