@@ -101,7 +101,29 @@ Format a number to default or specified locale.
   }
 ```
 
-## Strings
+### kittenFormat.percent
+
+Set percentage of a number
+
+```js
+  kittenFormat.percent(0.193, {
+    locale : 'fr-FR'
+  });
+
+  // res: '19,3%'
+
+  // options
+  {
+    locale    : String,
+    precision : Int, // number of decimal value
+  }
+
+  kittenFormat.percent(18.45);
+
+  // res: '18,45%'
+```
+
+### Strings
 
 ### kittenFormat.lowerCase
 
