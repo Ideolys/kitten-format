@@ -9,10 +9,10 @@
     currency     : 'EUR',
     precision    : 2,
     unitPrefixes : {
-      15   : 'P',
-      12   : 'T',
-      9    : 'G',
-      6    : 'M',
+      15   : { default : 'P', g : 'GT' },
+      12   : { default : 'T', g : 'MT' },
+      9    : { default : 'G', g : 'kT' },
+      6    : { default : 'M', g : 'T'  },
       3    : 'k',
       0    : '',
       '-3' : 'm',
@@ -132,6 +132,10 @@
       return value
     }
 
+    if (typeof value === 'string') {
+      return '-';
+    }
+
     options = options || {};
 
     var _localeOptions = getLocale(options.locale);
@@ -150,6 +154,10 @@
   function averageN (value, options) {
     if (value === undefined || value === null) {
       return value;
+    }
+
+    if (typeof value === 'string') {
+      return '-';
     }
 
     options = options || {};
@@ -174,25 +182,39 @@
     var _value         = value * Math.pow(10, -_averagePower);
     var _result        = formatN(_value, options);
 
-    return _result + ' ' + _unitPrefixes[_averagePower + _power] + _unit;
+    var _unitPrefix = _unitPrefixes[_averagePower + _power];
+    if (typeof _unitPrefix !== 'string') {
+      _unitPrefix = _unitPrefix[_unit] || _unitPrefix.default;
+    }
+    else {
+      _unitPrefix += _unit;
+    }
+
+    return _result + ' ' + _unitPrefix;
   }
 
-  /*
-    var _sourcePower = options.sourcePower || 0;
-    var _targetPower = options.targetPower || 0;
-    var _sourceUnit  = options.unit;
-
-    if (!_sourceUnit) {
+  /**
+   * Set a number as a percentage
+   * @param {Number} value
+   * @param {Object} options
+   */
+  function percent (value, options) {
+    if (value === undefined || value === null) {
       return value;
     }
 
-    var _localeOptions = getLocale(options.locale);
-    var _converters    = _localeOptions.converters;
-    var _power         = Math.pow(10, Math.abs(_sourcePower) - _targetPower);
-    var _value         = _power < 0 || _sourcePower < 0 ? (value / _power) : (value * _power);
-    var _result        = formatN(_value, options);
-    return _result + ' ' + _converters[_targetPower] + _sourceUnit;
-  */
+    if (typeof value === 'string') {
+      return '-';
+    }
+
+    var _value = value * 100;
+
+    if (value > 1) {
+      _value = value;
+    }
+
+    return formatN(_value, options) + '%';
+  }
 
   /**
    * Lower case a string
@@ -282,6 +304,10 @@
       return value;
     }
 
+    if (typeof value === 'string') {
+      return '-';
+    }
+
     options = options || {};
 
     var _localeOptions = getLocale(options.locale);
@@ -301,6 +327,10 @@
   function convC (value, options) {
     if (value === null || value === undefined) {
       return value;
+    }
+
+    if (typeof value === 'string') {
+      return '-';
     }
 
     options = options || {};
@@ -325,6 +355,7 @@
 
   kittenFormat.formatN      = formatN;
   kittenFormat.formatNumber = formatN;
+  kittenFormat.percent      = percent;
 
   return kittenFormat;
 

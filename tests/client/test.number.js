@@ -119,26 +119,34 @@ describe('number', () => {
 
     it('should average 10^3', () => {
       should(kittenFormat.averageN(1001.24, {
+        power     : 0,
+        unit      : 'l',
+        precision : 1
+      })).eql('1 kl');
+    });
+
+    it('should average 10^3 g', () => {
+      should(kittenFormat.averageN(1001.24, {
         power     : 3,
         unit      : 'g',
         precision : 1
-      })).eql('1 Mg');
+      })).eql('1 T');
     });
 
-    it('should average 10^6', () => {
+    it('should average 10^6 g', () => {
       should(kittenFormat.averageN(1001.24, {
         power     : 6,
         unit      : 'g',
         precision : 1
-      })).eql('1 Gg');
+      })).eql('1 kT');
     });
 
-    it('should average 10^9', () => {
+    it('should average 10^9 g', () => {
       should(kittenFormat.averageN(1001.24, {
         power     : 9,
         unit      : 'g',
         precision : 1
-      })).eql('1 Tg');
+      })).eql('1 MT');
     });
 
     it('should average 10^-3', () => {
