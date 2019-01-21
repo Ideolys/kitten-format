@@ -27,6 +27,10 @@ describe('number', () => {
       should(kittenFormat.formatN(null)).eql(null);
     });
 
+    it('should not format a string', () => {
+      should(kittenFormat.formatN('123')).eql('-');
+    });
+
     it('should format a number with locale "en-US" and default precision', () => {
       var _options = {
         locale : 'en-US'
@@ -92,6 +96,10 @@ describe('number', () => {
 
     it('should not average a number if no unit is given', () => {
       should(kittenFormat.averageN(100)).eql(100);
+    });
+
+    it('should not average a string', () => {
+      should(kittenFormat.averageN('123')).eql('-');
     });
 
     it('should average without precising the source power', () => {

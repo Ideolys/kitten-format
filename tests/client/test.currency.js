@@ -27,6 +27,10 @@ describe('currency', () => {
       should(kittenFormat.formatC(null)).eql(null);
     });
 
+    it('should not format a string', () => {
+      should(kittenFormat.formatC('123')).eql('-');
+    });
+
     it('should format a currency to option locale and currency "EUR"', () => {
       should(kittenFormat.formatC(200, {
         locale : 'en-GB'
@@ -102,6 +106,10 @@ describe('currency', () => {
 
     it('should not convert a currency if null value is given', () => {
       should(kittenFormat.convC(null)).eql(null);
+    });
+
+    it('should not convert a string', () => {
+      should(kittenFormat.convC('123')).eql('-');
     });
 
     it('should format a currency from "EUR" to "GBP"', () => {
