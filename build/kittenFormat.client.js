@@ -132,7 +132,7 @@
       return value
     }
 
-    if (typeof value === 'string') {
+    if (typeof value === 'string' && isNaN(value)) {
       return '-';
     }
 
@@ -156,7 +156,7 @@
       return value;
     }
 
-    if (typeof value === 'string') {
+    if (typeof value === 'string' && isNaN(value)) {
       return '-';
     }
 
@@ -219,7 +219,7 @@
       return value;
     }
 
-    if (typeof value === 'string') {
+    if (typeof value === 'string' && isNaN(value)) {
       return '-';
     }
 
@@ -320,7 +320,7 @@
       return value;
     }
 
-    if (typeof value === 'string') {
+    if (typeof value === 'string' && isNaN(value)) {
       return '-';
     }
 
@@ -345,7 +345,7 @@
       return value;
     }
 
-    if (typeof value === 'string') {
+    if (typeof value === 'string' && isNaN(value)) {
       return '-';
     }
 

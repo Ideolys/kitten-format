@@ -28,7 +28,11 @@ describe('currency', () => {
     });
 
     it('should not format a string', () => {
-      should(kittenFormat.formatC('123')).eql('-');
+      should(kittenFormat.formatC('123a')).eql('-');
+    });
+
+    it('should format a string', () => {
+      should(sanitizeSpaces(kittenFormat.formatC('123'))).eql('123,00 €');
     });
 
     it('should format a currency to option locale and currency "EUR"', () => {
@@ -109,7 +113,11 @@ describe('currency', () => {
     });
 
     it('should not convert a string', () => {
-      should(kittenFormat.convC('123')).eql('-');
+      should(kittenFormat.convC('123')).eql('123');
+    });
+
+    it('should not convert a string', () => {
+      should(kittenFormat.convC('123a')).eql('-');
     });
 
     it('should format a currency from "EUR" to "GBP"', () => {

@@ -27,8 +27,12 @@ describe('number', () => {
       should(kittenFormat.formatN(null)).eql(null);
     });
 
-    it('should not format a string', () => {
-      should(kittenFormat.formatN('123')).eql('-');
+    it('should not format a string (NaN)', () => {
+      should(kittenFormat.formatN('123a')).eql('-');
+    });
+
+    it('should format a string', () => {
+      should(kittenFormat.formatN('123')).eql('123');
     });
 
     it('should format a number with locale "en-US" and default precision', () => {
@@ -98,8 +102,12 @@ describe('number', () => {
       should(kittenFormat.averageN(100)).eql(100);
     });
 
-    it('should not average a string', () => {
-      should(kittenFormat.averageN('123')).eql('-');
+    it('should not average a string (NaN)', () => {
+      should(kittenFormat.averageN('123a')).eql('-');
+    });
+
+    it('should average a string', () => {
+      should(kittenFormat.averageN('123', { unit : 'g' })).eql('123 g');
     });
 
     it('should average without precising the source power', () => {
@@ -262,8 +270,12 @@ describe('number', () => {
       should(kittenFormat.percent(null)).eql(null);
     });
 
-    it('should not set percentage of a string', () => {
-      should(kittenFormat.percent('123')).eql('-');
+    it('should set percentage of a string', () => {
+      should(kittenFormat.percent('123')).eql('123%');
+    });
+
+    it('should not set percentage of a string (NaN)', () => {
+      should(kittenFormat.percent('123a')).eql('-');
     });
 
     it('should set percentage of a number with locale "en-US" and default precision', () => {
