@@ -190,6 +190,13 @@ describe('number', () => {
       })).eql('101.2 mg');
     });
 
+    it('should average if the power is too high', () => {
+      should(kittenFormat.averageN(123100377474, {
+        unit      : 'g',
+        precision : 2
+      })).eql('1,23 10^11g');
+    });
+
     it('should be fast', () => {
       var _locales        = ['fr-FR', 'en-US', 'en-GB'];
       var _executionTimes = [];

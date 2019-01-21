@@ -183,7 +183,10 @@
     var _result        = formatN(_value, options);
 
     var _unitPrefix = _unitPrefixes[_averagePower + _power];
-    if (typeof _unitPrefix !== 'string') {
+    if (_unitPrefix === undefined) {
+      _unitPrefix = '10^' + (_averagePower + _power) + _unit;
+    }
+    else if (typeof _unitPrefix !== 'string') {
       _unitPrefix = _unitPrefix[_unit] || _unitPrefix.default;
     }
     else {
