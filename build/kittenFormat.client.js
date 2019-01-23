@@ -164,12 +164,18 @@
 
     var _value        = value;
     var _averagePower = 0;
+    var _displayPower = null;
 
     if (value >= 1) {
       var _valueStr    = (value + '').split('.')[0];
       var _valueLength = _valueStr.length;
       _averagePower    = Math.trunc(_valueLength / 3) * 3;
-      _value           = value * Math.pow(10, -_averagePower);
+
+      if ((options.maxPower !== null && options.maxPower !== undefined) && _averagePower + _power > options.maxPower) {
+        _displayPower = options.maxPower - _power;
+      }
+
+      _value = value * Math.pow(10, -(_displayPower !== null ?_displayPower : _averagePower));
     }
 
     if (_value < 1) {
@@ -185,7 +191,7 @@
     var _unitPrefixes  = _localeOptions.unitPrefixes;
     var _result        = formatN(_value, options);
 
-    var _unitPrefix = _unitPrefixes[_averagePower + _power];
+    var _unitPrefix = _unitPrefixes[(_displayPower !== null ? _displayPower : _averagePower) + _power];
 
     if (_unitPrefix === undefined) {
       _unitPrefix = '10^' + (_averagePower + _power) + _unit;

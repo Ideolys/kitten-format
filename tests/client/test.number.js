@@ -230,6 +230,32 @@ describe('number', () => {
       })).eql('33,03 kT');
     });
 
+    it('should not average: maxPower = null', () => {
+      should(kittenFormat.averageN(33026721.53165768, {
+        power     : 3,
+        unit      : 'g',
+        precision : 2,
+        maxPower  : null
+      })).eql('33,03 kT');
+    });
+
+    it('should not average: maxPower = undefined', () => {
+      should(kittenFormat.averageN(33026721.53165768, {
+        power     : 3,
+        unit      : 'g',
+        precision : 2
+      })).eql('33,03 kT');
+    });
+
+    it('should average: maxPower defined', () => {
+      should(sanitizeSpaces(kittenFormat.averageN(33026721.53165768, {
+        power     : 3,
+        unit      : 'g',
+        precision : 2,
+        maxPower  : 6
+      }))).eql('33 026,72 T');
+    });
+
     it('should be fast', () => {
       var _locales        = ['fr-FR', 'en-US', 'en-GB'];
       var _executionTimes = [];
