@@ -1,6 +1,6 @@
 # kitten-format
 
-Fast formatters for browsers.
+Fast currency, number and string formatters for browsers.
 
 ## Getting Started
 
@@ -48,6 +48,14 @@ Set default locale options.
       '-9' : 'n'
     }
   });
+```
+
+### kittenFormat.setOption
+
+Set a default locale option.
+
+```js
+  kittenFormat.setOptions('currency', 'GBP');
 ```
 
 ### Numbers
@@ -134,6 +142,74 @@ Set percentage of a number
   // res: '18,45%'
 ```
 
+### Currencies
+
+### kittenFormat.formatC (kittenFormat.formatCurrency)
+
+Format a currency to specified locale and/or currency. If convert options are specified, it makes the conversion.
+
+```js
+  kittenFormat.formatC(1234, {
+    locale : 'fr-FR'
+  });
+
+  // res: '1 234€'
+
+  // options
+  {
+    locale    : String,
+    precision : Int, // number of decimal value
+    currency  : String // currency defined by ISO 4217
+  }
+
+  kittenFormat.formatC(1234.45, {
+    locale    : 'en-GB',
+    precision : 2,
+    currency  : 'EUR'
+  });
+
+  // res: '€1,234.45'
+
+  kittenFormat.formatC(1234.45, {
+    locale    : 'en-GB',
+    precision : 2,
+    target    : 'EUR'
+    rates     : {
+      EUR : 0.8,
+      GBP : 1
+    }
+  });
+
+  // res: '€987.56'
+```
+
+### kittenFormat.convC (kittenFormat.convertCurrency)
+
+Convert a currency to another one
+
+```js
+  kittenFormat.convC(1234, {
+    locale : 'fr-FR',
+    source : 'EUR',
+    target : 'USD',
+    rates  : { EUR : 1, USD : 1.3 }
+  });
+
+  // res: '1 604,2$'
+
+  // options
+  {
+    locale    : String,
+    precision : Int, // number of decimal value
+    source    : String, // currency defined by ISO 4217
+    target    : String, // currency defined by ISO 4217
+    rates     : {
+      '<source>' : Int,
+      '<target>' : Int
+    }
+  }
+```
+
 ### Strings
 
 ### kittenFormat.lowerCase
@@ -164,60 +240,4 @@ Convert the first char of a string to uppercase.
   kittenFormat.upperCaseFirstChar('abc');
 
   // res: 'Abc'
-```
-
-### Currencies
-
-### kittenFormat.formatC (kittenFormat.formatCurrency)
-
-Format a currency to specified locale and/or currency.
-
-```js
-  kittenFormat.formatC(1234, {
-    locale : 'fr-FR'
-  });
-
-  // res: '1 234€'
-
-  // options
-  {
-    locale    : String,
-    precision : Int, // number of decimal value
-    currency  : String // currency defined by ISO 4217
-  }
-
-  kittenFormat.formatC(1234.45, {
-    locale    : 'en-GB',
-    precision : 2,
-    currency  : 'EUR'
-  });
-
-  // res: '€1,234.45'
-```
-
-### kittenFormat.convC (kittenFormat.convertCurrency)
-
-Convert a currency to another one
-
-```js
-  kittenFormat.convC(1234, {
-    locale : 'fr-FR',
-    source : 'EUR',
-    target : 'USD',
-    rates  : { EUR : 1, USD : 1.3 }
-  });
-
-  // res: '1 604,2$'
-
-  // options
-  {
-    locale    : String,
-    precision : Int, // number of decimal value
-    source    : String, // currency defined by ISO 4217
-    target    : String, // currency defined by ISO 4217
-    rates     : {
-      '<source>' : Int,
-      '<target>' : Int
-    }
-  }
 ```
