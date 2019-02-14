@@ -70,7 +70,8 @@ Average a number to default or specified locale.
     locale    : String,
     precision : Int, // number of decimal value
     unit      : String,
-    power     : Int // current unit
+    power     : Int // current unit,
+    maxPower  : Int
   }
 
   kittenFormat.formatN(1234, {
@@ -81,6 +82,16 @@ Average a number to default or specified locale.
   });
 
   // res: '1,23 g'
+
+  kittenFormat.formatN(1234, {
+    locale    : 'fr-FR',
+    unit      : 'g',
+    precision : 2,
+    power     : 0,
+    maxPower  : 0
+  });
+
+  // res: '1 234 g'
 ```
 
 ### kittenFormat.formatN (kittenFormat.formatNumber)

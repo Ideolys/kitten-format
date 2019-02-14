@@ -62,6 +62,54 @@ describe('currency', () => {
       }))).eql('£200.14');
     });
 
+    it('should convert & format a currency from "EUR" to "GBP"', () => {
+      var _options = {
+        locale   : 'en-GB',
+        currency : 'EUR',
+        target   : 'GBP',
+        rates    : {
+          EUR : 1,
+          GBP : 2
+        }
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(200, _options))).eql('£400.00');
+    });
+
+    it('should not convert but format currency if no target is given', () => {
+      var _options = {
+        rates  : {
+          EUR : 1,
+          USD : 2
+        }
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(200, _options))).eql('200,00 €');
+    });
+
+    it('should not convert but format currency if no rates is given', () => {
+      var _options = {
+        target : 'USD'
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(200, _options))).eql('200,00 €');
+    });
+
+    it('should not convert but format currency if no source rate is given', () => {
+      var _options = {
+        target : 'USD',
+        rates  : {}
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(200, _options))).eql('200,00 €');
+    });
+
+    it('should not convert but format currency if no target rate is given', () => {
+      var _options = {
+        target : 'USD',
+        rates  : {
+          EUR : 1
+        }
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(200, _options))).eql('200,00 €');
+    });
+
     it('should be fast', () => {
       var _locales        = ['fr-FR', 'en-US', 'en-GB'];
       var _currencies     = ['EUR'  , 'USD'  , 'GBP'  ];

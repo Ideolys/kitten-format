@@ -34,6 +34,15 @@
   }
 
   /**
+   * Set a default option
+   * @param {String} key
+   * @param {*} optionsValue
+   */
+  function setOption (key, optionsValue) {
+    locales['default'][key] = optionsValue;
+  }
+
+  /**
    * Set locales to load
    * @param {Object} locale
    */
@@ -272,6 +281,7 @@
   var kittenFormat = {};
 
   kittenFormat.setOptions = setOptions;
+  kittenFormat.setOption  = setOption;
   kittenFormat.locale     = locale;
 
   kittenFormat.averageN      = averageN;
@@ -325,14 +335,21 @@
 
     var _localeOptions = getLocale(options.locale);
     var _precision     = options.precision || _localeOptions.precision;
-    var _currency      = options.currency  || _localeOptions.currency;
+    var _currency      = options.currency  || options.source || _localeOptions.currency;
     var _locale        = options.locale    || _localeOptions.locale;
+
+    // If options target is defined, we need to convert
+    if (options.target && options.rates && options.rates[options.target]) {
+      options.source = _currency;
+      _currency      = options.target;
+      value          = convC(value, options);
+    }
 
     return getFormatter$1(_locale, _currency, _precision).format(value);
   }
 
   /**
-   * COnvert currency
+   * Convert currency
    * @param {Number} value
    * @param {Object} options
    * @returns {Number}

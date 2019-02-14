@@ -17,4 +17,11 @@ describe('options', () => {
       precision : 3
     }))).eql('200,346 €');
   });
+
+  it('should set an option', () => {
+    kittenFormat.setOption('currency', 'GBP')
+    should(sanitizeSpaces(kittenFormat.formatC(200.3456, {
+      precision : 3
+    }))).eql('200,346 £GB');
+  });
 });
