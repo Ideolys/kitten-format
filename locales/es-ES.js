@@ -1,8 +1,8 @@
 import kittenFormat from 'kitten-format'
 
 var locale = {
-  locale       : 'en-GB',
-  currency     : 'GBP',
+  locale       : 'es-ES',
+  currency     : 'EUR',
   precision    : 2,
   unitPrefixes : {
     15   : 'P',
