@@ -59,7 +59,7 @@ describe('currency', () => {
       }))).eql('200,000 €');
     });
 
-    it('should format a currency to default locale and currency with precision equals to 3 with floatk', () => {
+    it('should format a currency to default locale and currency with precision equals to 3 with float', () => {
       should(sanitizeSpaces(kittenFormat.formatC(209.1234 , {
         precision : 3
       }))).eql('209,123 €');
