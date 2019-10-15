@@ -112,10 +112,10 @@
    * @param {Int} precision ex: 2
    * @returns {Intl}
    */
-  function getFormatter (locale$$1, precision) {
-    var _key = locale$$1 + ':' + precision;
+  function getFormatter (locale, precision) {
+    var _key = locale + ':' + precision;
     if (!registerdFormatters[_key]) {
-      registerdFormatters[_key] = new Intl.NumberFormat(locale$$1, {
+      registerdFormatters[_key] = new Intl.NumberFormat(locale, {
         maximumFractionDigits : precision
       });
     }
@@ -300,14 +300,14 @@
    * @param {Int} precision ex: 2
    * @returns {Intl}
    */
-  function getFormatter$1 (locale$$1, currency, precision) {
+  function getFormatter$1 (locale, currency, precision) {
     if (precision < 2) {
       precision = 2;
     }
-    var _key = locale$$1 + ':' + currency + ':' + precision;
+    var _key = locale + ':' + currency + ':' + precision;
     if (!registerdFormatters$1[_key]) {
-      registerdFormatters$1[_key] = new Intl.NumberFormat(locale$$1, {
-        maximumFractionDigits : precision,
+      registerdFormatters$1[_key] = new Intl.NumberFormat(locale, {
+        minimumFractionDigits : precision,
         currency              : currency,
         style                 : 'currency'
       });
