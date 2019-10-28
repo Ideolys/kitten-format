@@ -35,7 +35,7 @@ describe('currency', () => {
       should(sanitizeSpaces(kittenFormat.formatC('123'))).eql('123,00 €');
     });
 
-    it('should format a currency to option locale and currency "EUR"', () => {
+     it('should format a currency to option locale and currency "GB"', () => {
       should(kittenFormat.formatC(200, {
         locale : 'en-GB'
       })).eql('£200.00');
@@ -51,6 +51,18 @@ describe('currency', () => {
       should(sanitizeSpaces(kittenFormat.formatC(200.3456, {
         precision : 3
       }))).eql('200,346 €');
+    });
+
+    it('should format a currency to default locale and currency with precision equals to 3 with integer', () => {
+      should(sanitizeSpaces(kittenFormat.formatC(200, {
+        precision : 3
+      }))).eql('200,000 €');
+    });
+
+    it('should format a currency to default locale and currency with precision equals to 3 with float', () => {
+      should(sanitizeSpaces(kittenFormat.formatC(209.1234 , {
+        precision : 3
+      }))).eql('209,123 €');
     });
 
     it('should format a currency to locale "en-GB", currency "GBP" and precision 1', () => {
