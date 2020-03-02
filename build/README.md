@@ -55,7 +55,7 @@ Set default locale options.
 Set a default locale option.
 
 ```js
-  kittenFormat.setOptions('currency', 'GBP');
+  kittenFormat.setOption('currency', 'GBP');
 ```
 
 ### Numbers

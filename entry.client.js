@@ -1,6 +1,15 @@
-import kittenFormat         from './index';
-import { formatC, convC }   from './lib/currency';
-import { formatN, percent } from './lib/number';
+import kittenFormat                      from './index';
+import { setOptions, locale, setOption } from './lib/client/options';
+import { formatC, convC }                from './lib/client/currency';
+import { formatN, percent }              from './lib/client/number';
+import { averageN }                      from './lib/client/number';
+
+kittenFormat.setOptions = setOptions;
+kittenFormat.setOption  = setOption;
+kittenFormat.locale     = locale;
+
+kittenFormat.averageN      = averageN;
+kittenFormat.averageNumber = averageN;
 
 kittenFormat.formatC         = formatC;
 kittenFormat.formatCurrency  = formatC;
