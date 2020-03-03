@@ -1,10 +1,11 @@
 import kittenFormat from 'kitten-format'
 
 var locale = {
-  locale       : 'en-GB',
-  currency     : 'GBP',
-  precision    : 2,
-  unitPrefixes : {
+  locale         : 'en-GB',
+  currency       : 'GBP',
+  currencySymbol : '£',
+  precision      : 2,
+  unitPrefixes   : {
     15   : 'P',
     12   : 'T',
     9    : 'G',
@@ -14,7 +15,10 @@ var locale = {
     '-3' : 'm',
     '-6' : 'μ',
     '-9' : 'n'
-  }
+  },
+  thousandSeparator : ',',
+  decimalSeparator  : '.',
+  isCurrencyFirst   : true
 };
 
 kittenFormat.locale(locale);

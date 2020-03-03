@@ -51,10 +51,11 @@
   kittenFormat.upperCaseFirstChar = upperCaseFirstChar;
 
   var defaultLocale = {
-    locale       : 'fr-FR',
-    currency     : 'EUR',
-    precision    : 2,
-    unitPrefixes : {
+    locale         : 'fr-FR',
+    currency       : 'EUR',
+    currencySymbol : '€',
+    precision      : 2,
+    unitPrefixes   : {
       15   : { default : 'P', g : 'GT' },
       12   : { default : 'T', g : 'MT' },
       9    : { default : 'G', g : 'kT' },
@@ -64,7 +65,9 @@
       '-3' : 'm',
       '-6' : 'μ',
       '-9' : 'n'
-    }
+    },
+    thousandSeparator : ' ',
+    decimalSeparator  : ','
   };
 
   var locales = {
@@ -149,31 +152,6 @@
     return _lang;
   }
 
-  var registerdFormatters = {};
-
-  /**
-   * Get formatter instance
-   * @param {String} locale ex: 'fr-FR'
-   * @param {String} currency ex: 'EUR'
-   * @param {Int} precision ex: 2
-   * @returns {Intl}
-   */
-  function getFormatter (locale$$1, currency, precision) {
-    if (precision < 2) {
-      precision = 2;
-    }
-    var _key = locale$$1 + ':' + currency + ':' + precision;
-    if (!registerdFormatters[_key]) {
-      registerdFormatters[_key] = new Intl.NumberFormat(locale$$1, {
-        minimumFractionDigits : precision,
-        currency              : currency,
-        style                 : 'currency'
-      });
-    }
-
-    return registerdFormatters[_key];
-  }
-
   /**
    * Format currency
    * @param {Number} value
@@ -181,7 +159,7 @@
    * @returns {String}
    */
   function formatC (value, options) {
-    if (value === null || value === undefined) {
+    if (value == null) {
       return value;
     }
 
@@ -203,7 +181,12 @@
       value          = convC(value, options);
     }
 
-    return getFormatter(_locale, _currency, _precision).format(value);
+    return {
+      locale    : _locale,
+      currency  : _currency,
+      precision : _precision,
+      value     : value
+    };
   }
 
   /**
@@ -213,7 +196,7 @@
    * @returns {Number}
    */
   function convC (value, options) {
-    if (value === null || value === undefined) {
+    if (value == null) {
       return value;
     }
 
@@ -236,24 +219,49 @@
     return _value * _rates[_target];
   }
 
-  var registerdFormatters$1 = {};
+  var registerdFormatters = {};
 
   /**
    * Get formatter instance
    * @param {String} locale ex: 'fr-FR'
-   * @param {String} currency ex: 'EUR'
-   * @param {Int} precision ex: 2
+   * @param {Object} options
+   *  options.currency ex: 'EUR'
+   *  options.maximumFractionDigits
+   *  options.minimumFractionDigits
    * @returns {Intl}
    */
-  function getFormatter$1 (locale$$1, precision) {
-    var _key = locale$$1 + ':' + precision;
-    if (!registerdFormatters$1[_key]) {
-      registerdFormatters$1[_key] = new Intl.NumberFormat(locale$$1, {
-        maximumFractionDigits : precision
-      });
+  function getFormatter (locale, options) {
+    var _key = locale + ':' + (Object.values(options).join(':'));
+
+    if (!registerdFormatters[_key]) {
+      registerdFormatters[_key] = new Intl.NumberFormat(locale, options);
     }
 
-    return registerdFormatters$1[_key];
+    return registerdFormatters[_key];
+  }
+
+  /**
+   * Format currency
+   * @param {Number} value
+   * @param {Object} options
+   * @returns {String}
+   */
+  function formatC$1 (value, options) {
+    let parameters = formatC(value, options);
+
+    if (parameters == null || typeof parameters !== 'object') {
+      return parameters;
+    }
+
+    if (parameters.precision < 2) {
+      parameters.precision = 2;
+    }
+
+    return getFormatter(parameters.locale, {
+      style                 : 'currency',
+      currency              : parameters.currency,
+      minimumFractionDigits : parameters.precision
+    }).format(parameters.value);
   }
 
   /**
@@ -263,7 +271,7 @@
    * @return {String}
    */
   function formatN (value, options) {
-    if (value === undefined || value === null) {
+    if (value == null) {
       return value
     }
 
@@ -277,7 +285,10 @@
     var _precision     = options.precision || _localeOptions.precision;
     var _locale        = options.locale    || _localeOptions.locale;
 
-    return getFormatter$1(_locale, _precision).format(value);
+    return {
+      locale    : _locale,
+      precision : _precision
+    }
   }
 
   /**
@@ -287,7 +298,7 @@
    * @returns {String}
    */
   function averageN (value, options) {
-    if (value === undefined || value === null) {
+    if (value == null) {
       return value;
     }
 
@@ -331,8 +342,6 @@
 
     var _localeOptions = getLocale(options.locale);
     var _unitPrefixes  = _localeOptions.unitPrefixes;
-    var _result        = formatN(_value, options);
-
     var _unitPrefix = _unitPrefixes[(_displayPower !== null ? _displayPower : _averagePower) + _power];
 
     if (_unitPrefix === undefined) {
@@ -345,16 +354,18 @@
       _unitPrefix += _unit;
     }
 
-    return _result + ' ' + _unitPrefix;
+    return {
+      value : _value,
+      unit  : _unitPrefix
+    }
   }
 
   /**
    * Set a number as a percentage
    * @param {Number} value
-   * @param {Object} options
    */
-  function percent (value, options) {
-    if (value === undefined || value === null) {
+  function percent (value) {
+    if (value == null) {
       return value;
     }
 
@@ -368,24 +379,74 @@
       _value = value;
     }
 
-    return formatN(_value, options) + '%';
+    return {
+      value : _value
+    };
+  }
+
+  /**
+   * Format number
+   * @param {Number} value
+   * @param {Object} options
+   * @return {String}
+   */
+  function formatN$1 (value, options) {
+    let parameters = formatN(value, options);
+
+    if (parameters == null || typeof parameters !== 'object') {
+      return parameters;
+    }
+
+    return getFormatter(parameters.locale, { maximumFractionDigits : parameters.precision }).format(value);
+  }
+
+  /**
+   * Average a number
+   * @param {Number} value
+   * @param {Object} options
+   * @returns {String}
+   */
+  function averageN$1 (value, options) {
+    let parameters = averageN(value, options);
+
+    if (parameters == null || typeof parameters !== 'object') {
+      return parameters;
+    }
+
+    value = formatN$1(parameters.value, options);
+
+    return value + ' ' + parameters.unit;
+  }
+
+  /**
+   * Set a number as a percentage
+   * @param {Number} value
+   * @param {Object} options
+   */
+  function percent$1 (value, options) {
+    let parameters = percent(value);
+
+    if (parameters == null || typeof parameters !== 'object') {
+      return parameters;
+    }
+
+    return formatN$1(parameters.value, options) + '%';
   }
 
   kittenFormat.setOptions = setOptions;
   kittenFormat.setOption  = setOption;
   kittenFormat.locale     = locale;
 
-  kittenFormat.averageN      = averageN;
-  kittenFormat.averageNumber = averageN;
-
-  kittenFormat.formatC         = formatC;
-  kittenFormat.formatCurrency  = formatC;
+  kittenFormat.formatC         = formatC$1;
+  kittenFormat.formatCurrency  = formatC$1;
   kittenFormat.convC           = convC;
   kittenFormat.convertCurrency = convC;
 
-  kittenFormat.formatN      = formatN;
-  kittenFormat.formatNumber = formatN;
-  kittenFormat.percent      = percent;
+  kittenFormat.formatN       = formatN$1;
+  kittenFormat.formatNumber  = formatN$1;
+  kittenFormat.percent       = percent$1;
+  kittenFormat.averageN      = averageN$1;
+  kittenFormat.averageNumber = averageN$1;
 
   return kittenFormat;
 

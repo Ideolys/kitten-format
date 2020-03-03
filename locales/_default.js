@@ -1,8 +1,9 @@
 export default {
-  locale       : 'fr-FR',
-  currency     : 'EUR',
-  precision    : 2,
-  unitPrefixes : {
+  locale         : 'fr-FR',
+  currency       : 'EUR',
+  currencySymbol : '€',
+  precision      : 2,
+  unitPrefixes   : {
     15   : { default : 'P', g : 'GT' },
     12   : { default : 'T', g : 'MT' },
     9    : { default : 'G', g : 'kT' },
@@ -12,5 +13,7 @@ export default {
     '-3' : 'm',
     '-6' : 'μ',
     '-9' : 'n'
-  }
+  },
+  thousandSeparator : ' ',
+  decimalSeparator  : ','
 }
