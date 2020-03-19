@@ -397,7 +397,10 @@
       return parameters;
     }
 
-    return getFormatter(parameters.locale, { maximumFractionDigits : parameters.precision }).format(value);
+    Object.assign(parameters, options);
+    parameters.maximumFractionDigits = parameters.precision;
+
+    return getFormatter(parameters.locale, parameters).format(value);
   }
 
   /**

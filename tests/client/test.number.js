@@ -35,6 +35,10 @@ describe('number', () => {
       should(kittenFormat.formatN('123')).eql('123');
     });
 
+    it('should format a number and padd with 0', () => {
+      should(kittenFormat.formatN(123, { minimumFractionDigits : 2 })).eql('123,00');
+    });
+
     it('should format a number with locale "en-US" and default precision', () => {
       var _options = {
         locale : 'en-US'
