@@ -162,7 +162,7 @@ function format (locale$$1, value, options) {
   }
 
   if (options && options.minimumFractionDigits != null) {
-    for (fraction+=''; fraction.length < options.minimumFractionDigits; fraction = '0' + fraction) {}
+    for (fraction+=''; fraction.length < options.minimumFractionDigits; fraction = fraction + '0') {}
   }
 
   if (fraction[fraction.length - 1] !== '0') {
