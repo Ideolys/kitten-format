@@ -63,6 +63,12 @@ describe('currency', () => {
       }))).eql('209,123 €');
     });
 
+    it('should format a currency to default locale and fractional part with a precision (3) greater than the fractional part size (2)', () => {
+      should(sanitizeSpaces(kittenFormat.formatC(209.25 , {
+        precision : 3
+      }))).eql('209,250 €');
+    });
+
     it('should format a currency to locale "en-GB", currency "GBP" and precision 1', () => {
       // For currency, precision is a minimum
       should(sanitizeSpaces(kittenFormat.formatC(200.14, {
