@@ -65,7 +65,7 @@ Set a default locale option.
 Average a number to default or specified locale.
 
 ```js
-  kittenFormat.formatN(1234, {
+  kittenFormat.averageN(1234, {
     locale    : 'fr-FR',
     unit      : 'g',
     precision : 1
@@ -82,7 +82,7 @@ Average a number to default or specified locale.
     maxPower  : Int
   }
 
-  kittenFormat.formatN(1234, {
+  kittenFormat.averageN(1234, {
     locale    : 'fr-FR',
     unit      : 'g',
     precision : 2,
@@ -91,7 +91,7 @@ Average a number to default or specified locale.
 
   // res: '1,23 g'
 
-  kittenFormat.formatN(1234, {
+  kittenFormat.averageN(1234, {
     locale    : 'fr-FR',
     unit      : 'g',
     precision : 2,
@@ -117,6 +117,7 @@ Format a number to default or specified locale.
   {
     locale    : String,
     precision : Int, // number of decimal value
+    minimumFractionDigits : Int
   }
 ```
 
