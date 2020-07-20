@@ -416,6 +416,7 @@
       return parameters;
     }
 
+    delete options.unit;
     value = formatN$1(parameters.value, options);
 
     return value + ' ' + parameters.unit;
