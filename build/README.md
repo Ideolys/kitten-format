@@ -117,7 +117,8 @@ Format a number to default or specified locale.
   {
     locale    : String,
     precision : Int, // number of decimal value
-    minimumFractionDigits : Int
+    minimumFractionDigits : Int,
+    shouldNotRound : Boolean
   }
 ```
 
@@ -160,7 +161,8 @@ Format a currency to specified locale and/or currency. If convert options are sp
   {
     locale    : String,
     precision : Int, // number of decimal value
-    currency  : String // currency defined by ISO 4217
+    currency  : String, // currency defined by ISO 4217
+    shouldNotRound : Boolean
   }
 
   kittenFormat.formatC(1234.45, {
