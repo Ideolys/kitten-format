@@ -1,5 +1,5 @@
 const should       = require('should');
-const kittenFormat = require('../../build/kittenFormat.server');
+const kittenFormat = require('../build/kittenFormat.server');
 const utils        = require('./utils');
 
 /**
@@ -76,6 +76,25 @@ describe('currency', () => {
         currency  : 'GBP',
         precision : 1
       }))).eql('£200.14');
+    });
+
+    it('should format a currency with locale "fr-FR" and shouldNotRound : true', () => {
+      var _options = {
+        shouldNotRound : true
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(20000.3456, _options))).eql('20 000,3456 €');
+      should(sanitizeSpaces(kittenFormat.formatC(20000.3, _options))).eql('20 000,3 €');
+      should(sanitizeSpaces(kittenFormat.formatC(20000.99, _options))).eql('20 000,99 €');
+    });
+
+    it('should format a currency with locale "en-GB" and shouldNotRound : true', () => {
+      var _options = {
+        locale         : 'en-GB',
+        shouldNotRound : true
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(20000.3456, _options))).eql('£20,000.3456');
+      should(sanitizeSpaces(kittenFormat.formatC(20000.3, _options))).eql('£20,000.3');
+      should(sanitizeSpaces(kittenFormat.formatC(20000.99, _options))).eql('£20,000.99');
     });
 
     it('should convert & format a currency from "EUR" to "GBP"', () => {

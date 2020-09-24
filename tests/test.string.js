@@ -1,3 +1,6 @@
+const should       = require('should');
+const kittenFormat = require('../build/kittenFormat.server');
+
 describe('String', () => {
 
   describe('lowerCase', () => {

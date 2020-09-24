@@ -1,5 +1,5 @@
 const should       = require('should');
-const kittenFormat = require('../../build/kittenFormat.server');
+const kittenFormat = require('../build/kittenFormat.server');
 
 describe('options', () => {
 

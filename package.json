@@ -5,12 +5,11 @@
   "main": "build/kitternFormat.client.js",
   "scripts": {
     "build-locales": "node build-locales",
-    "build-server": "./node_modules/.bin/rollup entry.server.js --file build/kittenFormat.server.js --format cjs",
-    "build-client": "./node_modules/.bin/rollup entry.client.js --file build/kittenFormat.client.js --format umd --name kittenFormat",
+    "build-server": "./node_modules/.bin/rollup index.js --file build/kittenFormat.server.js --format cjs",
+    "build-client": "./node_modules/.bin/rollup index.js --file build/kittenFormat.client.js --format umd --name kittenFormat",
     "build-client-minified": "./node_modules/.bin/rollup -c rollup-min.config.js",
     "build": "npm run build-locales & npm run build-client & npm run build-client-minified && npm run build-server && cp README.md ./build",
-    "test-client": "npm run build & ./node_modules/.bin/karma start tests/client/karma.conf.js",
-    "test-server": "npm run build-server && ./node_modules/.bin/mocha ./tests/server/test.*.js"
+    "test": "npm run build-server && ./node_modules/.bin/mocha ./tests/test.*.js"
   },
   "author": "Ideolys",
   "license": "Apache-2.0",

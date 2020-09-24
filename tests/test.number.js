@@ -1,3 +1,66 @@
+const should       = require('should');
+const kittenFormat = require('../build/kittenFormat.server');
+const utils        = require('./utils');
+
+kittenFormat.locale({
+  locale         : 'fr-CHF',
+  currency       : 'CHF',
+  currencySymbol : 'CHF',
+  precision      : 2,
+  unitPrefixes   : {
+    15   : 'P',
+    12   : 'T',
+    9    : 'G',
+    6    : 'M',
+    3    : 'k',
+    0    : '',
+    '-3' : 'm',
+    '-6' : 'μ',
+    '-9' : 'n'
+  },
+  thousandSeparator : ' ',
+  decimalSeparator  : ','
+});
+kittenFormat.locale({
+  locale         : 'en-GB',
+  currency       : 'GBP',
+  currencySymbol : '£',
+  precision      : 2,
+  unitPrefixes   : {
+    15   : 'P',
+    12   : 'T',
+    9    : 'G',
+    6    : 'M',
+    3    : 'k',
+    0    : '',
+    '-3' : 'm',
+    '-6' : 'μ',
+    '-9' : 'n'
+  },
+  thousandSeparator : ',',
+  decimalSeparator  : '.',
+  isCurrencyFirst   : true
+});
+kittenFormat.locale({
+  locale         : 'fr-FR',
+  currency       : 'EUR',
+  currencySymbol : '€',
+  precision      : 2,
+  unitPrefixes   : {
+    15   : { default : 'P', g : 'GT' },
+    12   : { default : 'T', g : 'MT' },
+    9    : { default : 'G', g : 'kT' },
+    6    : { default : 'M', g : 'T'  },
+    3    : 'k',
+    0    : '',
+    '-3' : 'm',
+    '-6' : 'μ',
+    '-9' : 'n'
+  },
+  thousandSeparator : ' ',
+  decimalSeparator  : ','
+});
+
 /**
  * Sanitize spaces
  * @param {String} str
@@ -8,6 +71,11 @@ function sanitizeSpaces (str) {
 }
 
 describe('number', () => {
+
+  beforeEach(() => {
+
+    kittenFormat.setOptions();
+  });
 
   describe('formatN', () => {
     it ('should be defined', () => {
@@ -35,27 +103,43 @@ describe('number', () => {
       should(kittenFormat.formatN('123')).eql('123');
     });
 
-    it('should format a number and padd with 0', () => {
-      should(kittenFormat.formatN(123, { minimumFractionDigits : 2 })).eql('123,00');
-    });
-
-    it('should format a number with locale "en-US" and default precision', () => {
+    it('should format a number with locale "en-GB" and default precision', () => {
       var _options = {
-        locale : 'en-US'
+        locale : 'en-GB'
       };
       should(sanitizeSpaces(kittenFormat.formatN(20000, _options))).eql('20,000');
     });
 
-    it('should format a number with locale "en-US" and precision', () => {
+    it('should format a number with locale "en-GB" and precision', () => {
       var _options = {
-        locale    : 'en-US',
+        locale    : 'en-GB',
         precision : 3
       };
       should(sanitizeSpaces(kittenFormat.formatN(20000.3456, _options))).eql('20,000.346');
     });
 
+    it('should format a number with locale "fr-FR" and shouldNotRound : true', () => {
+      var _options = {
+        locale         : 'fr-FR',
+        shouldNotRound : true
+      };
+      should(sanitizeSpaces(kittenFormat.formatN(20000.3456, _options))).eql('20 000,3456');
+      should(sanitizeSpaces(kittenFormat.formatN(20000.3, _options))).eql('20 000,3');
+      should(sanitizeSpaces(kittenFormat.formatN(20000.99, _options))).eql('20 000,99');
+    });
+
+    it('should format a number with locale "en-GB" and shouldNotRound : true', () => {
+      var _options = {
+        locale         : 'en-GB',
+        shouldNotRound : true
+      };
+      should(sanitizeSpaces(kittenFormat.formatN(20000.3456, _options))).eql('20,000.3456');
+      should(sanitizeSpaces(kittenFormat.formatN(20000.3, _options))).eql('20,000.3');
+      should(sanitizeSpaces(kittenFormat.formatN(20000.99, _options))).eql('20,000.99');
+    });
+
     it('should be fast', () => {
-      var _locales        = ['fr-FR', 'en-US', 'en-GB'];
+      var _locales        = ['fr-FR', 'fr-CHF', 'en-GB'];
       var _executionTimes = [];
 
       for (var j = 0; j < 20; j++) {
@@ -71,12 +155,12 @@ describe('number', () => {
           ]);
         }
 
-        var _start = window.performance.now();
+        var _start = process.hrtime();
         for (var i = 0, len = _datasetlength; i < len; i++) {
           var _data = _dataset[i];
           kittenFormat.formatN(_data[0], _data[1]);
         }
-        _executionTimes.push(window.performance.now() - _start);
+        _executionTimes.push(utils.getDurationInMS(_start));
       }
 
       var _average = 0;
@@ -261,7 +345,7 @@ describe('number', () => {
     });
 
     it('should be fast', () => {
-      var _locales        = ['fr-FR', 'en-US', 'en-GB'];
+      var _locales        = ['fr-FR', 'fr-CHF', 'en-GB'];
       var _executionTimes = [];
 
       for (var j = 0; j < 20; j++) {
@@ -279,12 +363,12 @@ describe('number', () => {
           ]);
         }
 
-        var _start = window.performance.now();
+        var _start = process.hrtime();
         for (var i = 0, len = _datasetlength; i < len; i++) {
           var _data = _dataset[i];
           kittenFormat.averageN(_data[0], _data[1]);
         }
-        _executionTimes.push(window.performance.now() - _start);
+        _executionTimes.push(utils.getDurationInMS(_start));
       }
 
       var _average = 0;
@@ -292,7 +376,7 @@ describe('number', () => {
         _average += (_executionTimes[k] - _average) / (k + 1);
       }
 
-      should(_average).lessThanOrEqual(25); // in ms
+      should(_average).lessThanOrEqual(30); // in ms
     });
   });
 
@@ -317,16 +401,16 @@ describe('number', () => {
       should(kittenFormat.percent('123a')).eql('-');
     });
 
-    it('should set percentage of a number with locale "en-US" and default precision', () => {
+    it('should set percentage of a number with locale "en-GB" and default precision', () => {
       var _options = {
-        locale : 'en-US'
+        locale : 'en-GB'
       };
       should(sanitizeSpaces(kittenFormat.percent(0.193, _options))).eql('19.3%');
     });
 
-    it('should set percentage of a number with locale "en-US" and precision', () => {
+    it('should set percentage of a number with locale "en-GB" and precision', () => {
       var _options = {
-        locale    : 'en-US',
+        locale    : 'en-GB',
         precision : 3
       };
       should(sanitizeSpaces(kittenFormat.percent(0.193446, _options))).eql('19.345%');
@@ -337,7 +421,7 @@ describe('number', () => {
     });
 
     it('should be fast', () => {
-      var _locales        = ['fr-FR', 'en-US', 'en-GB'];
+      var _locales        = ['fr-FR', 'fr-CHF', 'en-GB'];
       var _executionTimes = [];
 
       for (var j = 0; j < 20; j++) {
@@ -353,12 +437,12 @@ describe('number', () => {
           ]);
         }
 
-        var _start = window.performance.now();
+        var _start = process.hrtime();
         for (var i = 0, len = _datasetlength; i < len; i++) {
           var _data = _dataset[i];
           kittenFormat.percent(_data[0], _data[1]);
         }
-        _executionTimes.push(window.performance.now() - _start);
+        _executionTimes.push(utils.getDurationInMS(_start));
       }
 
       var _average = 0;
@@ -366,7 +450,7 @@ describe('number', () => {
         _average += (_executionTimes[k] - _average) / (k + 1);
       }
 
-      should(_average).lessThanOrEqual(20); // in ms
+      should(_average).lessThanOrEqual(25); // in ms
     });
   });
 

@@ -40,12 +40,6 @@ function upperCaseFirstChar (value) {
   return value[0].toUpperCase() + lowerCase(value.slice(1, value.length));
 }
 
-var kittenFormat = {};
-
-kittenFormat.lowerCase          = lowerCase;
-kittenFormat.upperCase          = upperCase;
-kittenFormat.upperCaseFirstChar = upperCaseFirstChar;
-
 var defaultLocale = {
   locale         : 'fr-FR',
   currency       : 'EUR',
@@ -75,6 +69,10 @@ var locales = {
  * @param {Object} optionsValue
  */
 function setOptions (optionsValue) {
+  if (!optionsValue) {
+    return;
+  }
+
   locales['default'] = optionsValue;
 }
 
@@ -84,6 +82,10 @@ function setOptions (optionsValue) {
  * @param {*} optionsValue
  */
 function setOption (key, optionsValue) {
+  if (key == null) {
+    return;
+  }
+
   locales['default'][key] = optionsValue;
 }
 
@@ -106,7 +108,7 @@ function locale (locale) {
  */
 function getLocale (locale) {
   if (!locales[locale]) {
-    return locales['default'];
+    return locales.default;
   }
 
   return locales[locale];
@@ -154,26 +156,26 @@ function format (locale$$1, value, options) {
     }
   }
 
-  if (options && options.style === 'currency') {
+  if (options.style === 'currency') {
     options.maximumFractionDigits = options.minimumFractionDigits;
-    if (options && options.minimumFractionDigits == null) {
+    if (options.minimumFractionDigits == null) {
       options.minimumFractionDigits = locale$$1.precision;
     }
   }
 
-  if (options && options.minimumFractionDigits != null) {
+  if (options.minimumFractionDigits != null && options.shouldNotRound !== true) {
     for (fraction+=''; fraction.length < options.minimumFractionDigits; fraction = fraction + '0') {}
   }
 
-  if (fraction[fraction.length - 1] !== '0') {
-    fraction = (toFixed(Number('0.' + fraction, 10), (options && options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '').slice(2);
+  if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
+    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '').slice(2);
   }
 
   if (fraction.length) {
     res += locale$$1.decimalSeparator + fraction;
   }
 
-  if (options && options.style === 'currency') {
+  if (options.style === 'currency') {
     if (locale$$1.isCurrencyFirst === true) {
       res = locale$$1.currencySymbol + res;
     }
@@ -185,21 +187,59 @@ function format (locale$$1, value, options) {
   return res;
 }
 
-var locales$1 = {
-  default : defaultLocale
-};
-
 /**
- * Get the given locale or fallback to the default one
- * @param {String} locale
+ * Format number
+ * @param {Number} value
+ * @param {Object} options
+ * @return {String}
  */
-function getLocale$1 (locale) {
-  if (!locales$1[locale]) {
-    return locales$1['default'];
+function formatNumber (value, options) {
+  let parameters = formatN(value, options);
+
+  if (parameters == null || typeof parameters !== 'object') {
+    return parameters;
   }
 
-  return locales$1[locale];
+  options                       = options || {};
+  options.maximumFractionDigits = parameters.precision;
+
+  return format(parameters.locale, value, options);
 }
+
+/**
+ * Average a number
+ * @param {Number} value
+ * @param {Object} options
+ * @returns {String}
+ */
+function averageNumber (value, options) {
+  let parameters = averageN(value, options);
+
+  if (parameters == null || typeof parameters !== 'object') {
+    return parameters;
+  }
+
+  options = options || {};
+  value   = formatNumber(parameters.value, options);
+
+  return value + ' ' + parameters.unit;
+}
+
+/**
+ * Set a number as a percentage
+ * @param {Number} value
+ * @param {Object} options
+ */
+function percentNumber (value, options) {
+  let parameters = percent(value);
+
+  if (parameters == null || typeof parameters !== 'object') {
+    return parameters;
+  }
+
+  return formatNumber(parameters.value, options) + '%';
+}
+
 
 /**
  * Format number
@@ -218,7 +258,7 @@ function formatN (value, options) {
 
   options = options || {};
 
-  var _localeOptions = getLocale$1(options.locale);
+  var _localeOptions = getLocale(options.locale);
   var _precision     = options.precision || _localeOptions.precision;
   var _locale        = options.locale    || _localeOptions.locale;
 
@@ -277,7 +317,7 @@ function averageN (value, options) {
     }
   }
 
-  var _localeOptions = getLocale$1(options.locale);
+  var _localeOptions = getLocale(options.locale);
   var _unitPrefixes  = _localeOptions.unitPrefixes;
   var _unitPrefix = _unitPrefixes[(_displayPower !== null ? _displayPower : _averagePower) + _power];
 
@@ -322,55 +362,28 @@ function percent (value) {
 }
 
 /**
- * Format number
- * @param {Number} value
- * @param {Object} options
- * @return {String}
- */
-function formatN$1 (value, options) {
-  let parameters = formatN(value, options);
-
-  if (parameters == null || typeof parameters !== 'object') {
-    return parameters;
-  }
-
-  options =  { maximumFractionDigits : parameters.precision };
-
-  return format(parameters.locale, value, options);
-}
-
-/**
- * Average a number
+ * Format currency
  * @param {Number} value
  * @param {Object} options
  * @returns {String}
  */
-function averageN$1 (value, options) {
-  let parameters = averageN(value, options);
+function formatCurrency (value, options) {
+  let parameters = formatC(value, options);
 
   if (parameters == null || typeof parameters !== 'object') {
     return parameters;
   }
 
-  value = formatN$1(parameters.value, options);
-
-  return value + ' ' + parameters.unit;
-}
-
-/**
- * Set a number as a percentage
- * @param {Number} value
- * @param {Object} options
- */
-function percent$1 (value, options) {
-  let parameters = percent(value);
-
-  if (parameters == null || typeof parameters !== 'object') {
-    return parameters;
+  if (parameters.precision < 2) {
+    parameters.precision = 2;
   }
 
-  return formatN$1(parameters.value, options) + '%';
+  parameters.style                 = 'currency';
+  parameters.minimumFractionDigits = parameters.precision;
+
+  return format(parameters.locale, parameters.value, parameters);
 }
+
 
 /**
  * Format currency
@@ -389,7 +402,7 @@ function formatC (value, options) {
 
   options = options || {};
 
-  var _localeOptions = getLocale$1(options.locale);
+  var _localeOptions = getLocale(options.locale);
   var _precision     = options.precision || _localeOptions.precision;
   var _currency      = options.currency  || options.source || _localeOptions.currency;
   var _locale        = options.locale    || _localeOptions.locale;
@@ -402,10 +415,11 @@ function formatC (value, options) {
   }
 
   return {
-    locale    : _locale,
-    currency  : _currency,
-    precision : _precision,
-    value     : value
+    locale         : _locale,
+    currency       : _currency,
+    precision      : _precision,
+    value          : value,
+    shouldNotRound : options.shouldNotRound
   };
 }
 
@@ -426,7 +440,7 @@ function convC (value, options) {
 
   options = options || {};
 
-  var _localeOptions = getLocale$1(options.locale);
+  var _localeOptions = getLocale(options.locale);
   var _source        = options.source || _localeOptions.currency;
   var _target        = options.target;
   var _rates         = options.rates;
@@ -439,41 +453,24 @@ function convC (value, options) {
   return _value * _rates[_target];
 }
 
-/**
- * Format currency
- * @param {Number} value
- * @param {Object} options
- * @returns {String}
- */
-function formatC$1 (value, options) {
-  let parameters = formatC(value, options);
-
-  if (parameters == null || typeof parameters !== 'object') {
-    return parameters;
-  }
-
-  if (parameters.precision < 2) {
-    parameters.precision = 2;
-  }
-
-  return format(parameters.locale, parameters.value, {
-    style                 : 'currency',
-    minimumFractionDigits : parameters.precision
-  });
-}
+const kittenFormat = {};
 
 kittenFormat.setOptions = setOptions;
 kittenFormat.setOption  = setOption;
 kittenFormat.locale     = locale;
 
-kittenFormat.formatN       = formatN$1;
-kittenFormat.formatNumber  = formatN$1;
-kittenFormat.percent       = percent$1;
-kittenFormat.averageN      = averageN$1;
-kittenFormat.averageNumber = averageN$1;
+kittenFormat.lowerCase          = lowerCase;
+kittenFormat.upperCase          = upperCase;
+kittenFormat.upperCaseFirstChar = upperCaseFirstChar;
 
-kittenFormat.formatC         = formatC$1;
-kittenFormat.formatCurrency  = formatC$1;
+kittenFormat.formatN       = formatNumber;
+kittenFormat.formatNumber  = formatNumber;
+kittenFormat.percent       = percentNumber;
+kittenFormat.averageN      = averageNumber;
+kittenFormat.averageNumber = averageNumber;
+
+kittenFormat.formatC         = formatCurrency;
+kittenFormat.formatCurrency  = formatCurrency;
 kittenFormat.convC           = convC;
 kittenFormat.convertCurrency = convC;
 
