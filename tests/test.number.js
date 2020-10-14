@@ -110,6 +110,14 @@ describe('number', () => {
       should(sanitizeSpaces(kittenFormat.formatN(20000, _options))).eql('20,000');
     });
 
+    it('should format a number with minimumFractionDigits', () => {
+      should(kittenFormat.formatN('14.4596', {
+        minimumFractionDigits : 3,
+        precision             : 3
+      })).eql('14,460');
+    });
+
+
     it('should format a number with locale "en-GB" and precision', () => {
       var _options = {
         locale    : 'en-GB',

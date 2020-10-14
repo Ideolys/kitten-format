@@ -163,12 +163,12 @@ function format (locale$$1, value, options) {
     }
   }
 
-  if (options.minimumFractionDigits != null && options.shouldNotRound !== true) {
-    for (fraction+=''; fraction.length < options.minimumFractionDigits; fraction = fraction + '0') {}
-  }
-
   if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
     fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '').slice(2);
+  }
+
+  if (options.minimumFractionDigits != null && options.shouldNotRound !== true) {
+    for (fraction+=''; fraction.length < options.minimumFractionDigits; fraction = fraction + '0') {}
   }
 
   if (fraction.length) {
