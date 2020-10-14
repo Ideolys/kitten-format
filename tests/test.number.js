@@ -142,6 +142,17 @@ describe('number', () => {
       should(sanitizeSpaces(kittenFormat.formatN(20000.99, _options))).eql('20 000,99');
     });
 
+    it('should format a number with locale "fr-FR" and shouldNotRound : true & precision = 2', () => {
+      var _options = {
+        locale         : 'fr-FR',
+        shouldNotRound : true,
+        precision      : 2
+      };
+      should(sanitizeSpaces(kittenFormat.formatN(20000.3456, _options))).eql('20 000,34');
+      should(sanitizeSpaces(kittenFormat.formatN(20000.3, _options))).eql('20 000,3');
+      should(sanitizeSpaces(kittenFormat.formatN(20000.99, _options))).eql('20 000,99');
+    });
+
     it('should format a number with locale "en-GB" and shouldNotRound : true', () => {
       var _options = {
         locale         : 'en-GB',

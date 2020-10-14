@@ -156,18 +156,11 @@ function format (locale$$1, value, options) {
     }
   }
 
-  if (options.style === 'currency' &&  options.shouldNotRound !== true) {
-    options.maximumFractionDigits = options.minimumFractionDigits;
-    if (options.minimumFractionDigits == null) {
-      options.minimumFractionDigits = locale$$1.precision;
-    }
-  }
-
   if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
     fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '').slice(2);
   }
 
-  if (options.minimumFractionDigits != null && options.shouldNotRound !== true) {
+  if (options.minimumFractionDigits != null) {
     for (fraction+=''; fraction.length < options.minimumFractionDigits; fraction = fraction + '0') {}
   }
 
@@ -263,7 +256,7 @@ function formatN (value, options) {
   options = options || {};
 
   var _localeOptions = getLocale(options.locale);
-  var _precision     = options.precision;
+  var _precision     = options.shouldNotRound ? options.precision : options.precision || _localeOptions.precision;
   var _locale        = options.locale    || _localeOptions.locale;
 
   return {
@@ -385,6 +378,12 @@ function formatCurrency (value, options) {
   parameters.style                 = 'currency';
   parameters.minimumFractionDigits = parameters.precision;
 
+
+  if (parameters.minimumFractionDigits == null) {
+    parameters.minimumFractionDigits = parameters.locale.precision;
+  }
+  parameters.maximumFractionDigits = parameters.minimumFractionDigits;
+
   return format(parameters.locale, parameters.value, parameters);
 }
 
@@ -407,7 +406,7 @@ function formatC (value, options) {
   options = options || {};
 
   var _localeOptions = getLocale(options.locale);
-  var _precision     = options.precision;
+  var _precision     = options.shouldNotRound ? options.precision : options.precision || _localeOptions.precision;
   var _currency      = options.currency  || options.source || _localeOptions.currency;
   var _locale        = options.locale    || _localeOptions.locale;
 
