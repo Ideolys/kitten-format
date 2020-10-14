@@ -1,6 +1,6 @@
 {
   "name": "kitten-format",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Fast formatters for browsers",
   "main": "kittenFormat.server.js",
   "author": "Ideolys",
