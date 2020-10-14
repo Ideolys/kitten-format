@@ -160,7 +160,7 @@
       }
     }
 
-    if (options.style === 'currency') {
+    if (options.style === 'currency' &&  options.shouldNotRound !== true) {
       options.maximumFractionDigits = options.minimumFractionDigits;
       if (options.minimumFractionDigits == null) {
         options.minimumFractionDigits = locale$$1.precision;
@@ -173,6 +173,10 @@
 
     if (options.minimumFractionDigits != null && options.shouldNotRound !== true) {
       for (fraction+=''; fraction.length < options.minimumFractionDigits; fraction = fraction + '0') {}
+    }
+
+    if (options.shouldNotRound === true) {
+      fraction = fraction.slice(0, options.maximumFractionDigits ? options.maximumFractionDigits : fraction.length);
     }
 
     if (fraction.length) {
@@ -263,7 +267,7 @@
     options = options || {};
 
     var _localeOptions = getLocale(options.locale);
-    var _precision     = options.precision || _localeOptions.precision;
+    var _precision     = options.precision;
     var _locale        = options.locale    || _localeOptions.locale;
 
     return {
@@ -407,7 +411,7 @@
     options = options || {};
 
     var _localeOptions = getLocale(options.locale);
-    var _precision     = options.precision || _localeOptions.precision;
+    var _precision     = options.precision;
     var _currency      = options.currency  || options.source || _localeOptions.currency;
     var _locale        = options.locale    || _localeOptions.locale;
 

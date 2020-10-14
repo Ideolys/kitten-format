@@ -117,6 +117,12 @@ describe('number', () => {
       })).eql('14,460');
     });
 
+    it('should format a number with minimumFractionDigits', () => {
+      should(kittenFormat.formatN('14.4596', {
+        precision      : 3,
+        shouldNotRound : true
+      })).eql('14,459');
+    });
 
     it('should format a number with locale "en-GB" and precision', () => {
       var _options = {

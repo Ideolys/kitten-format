@@ -156,7 +156,7 @@ function format (locale$$1, value, options) {
     }
   }
 
-  if (options.style === 'currency') {
+  if (options.style === 'currency' &&  options.shouldNotRound !== true) {
     options.maximumFractionDigits = options.minimumFractionDigits;
     if (options.minimumFractionDigits == null) {
       options.minimumFractionDigits = locale$$1.precision;
@@ -169,6 +169,10 @@ function format (locale$$1, value, options) {
 
   if (options.minimumFractionDigits != null && options.shouldNotRound !== true) {
     for (fraction+=''; fraction.length < options.minimumFractionDigits; fraction = fraction + '0') {}
+  }
+
+  if (options.shouldNotRound === true) {
+    fraction = fraction.slice(0, options.maximumFractionDigits ? options.maximumFractionDigits : fraction.length);
   }
 
   if (fraction.length) {
@@ -259,7 +263,7 @@ function formatN (value, options) {
   options = options || {};
 
   var _localeOptions = getLocale(options.locale);
-  var _precision     = options.precision || _localeOptions.precision;
+  var _precision     = options.precision;
   var _locale        = options.locale    || _localeOptions.locale;
 
   return {
@@ -403,7 +407,7 @@ function formatC (value, options) {
   options = options || {};
 
   var _localeOptions = getLocale(options.locale);
-  var _precision     = options.precision || _localeOptions.precision;
+  var _precision     = options.precision;
   var _currency      = options.currency  || options.source || _localeOptions.currency;
   var _locale        = options.locale    || _localeOptions.locale;
 

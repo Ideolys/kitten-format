@@ -87,6 +87,16 @@ describe('currency', () => {
       should(sanitizeSpaces(kittenFormat.formatC(20000.99, _options))).eql('20 000,99 €');
     });
 
+    it('should format a currency with locale "fr-FR" and shouldNotRound : true', () => {
+      var _options = {
+        locale         : 'fr-FR',
+        shouldNotRound : true
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(20000.3456, _options))).eql('20 000,3456 €');
+      should(sanitizeSpaces(kittenFormat.formatC(20000.3, _options))).eql('20 000,3 €');
+      should(sanitizeSpaces(kittenFormat.formatC(20000.99, _options))).eql('20 000,99 €');
+    });
+
     it('should format a currency with locale "en-GB" and shouldNotRound : true', () => {
       var _options = {
         locale         : 'en-GB',
