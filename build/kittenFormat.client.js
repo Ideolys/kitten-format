@@ -44,10 +44,17 @@
     return value[0].toUpperCase() + lowerCase(value.slice(1, value.length));
   }
 
+  var currencies = {
+    EUR : '€',
+    GBP : '£',
+    CHF : 'CHF',
+    USD : '$'
+  };
+
   var defaultLocale = {
     locale         : 'fr-FR',
     currency       : 'EUR',
-    currencySymbol : '€',
+    currencySymbol : currencies.EUR,
     precision      : 2,
     unitPrefixes   : {
       15   : { default : 'P', g : 'GT' },
@@ -88,6 +95,10 @@
   function setOption (key, optionsValue) {
     if (key == null) {
       return;
+    }
+
+    if (key === 'currency') {
+      locales['default'].currencySymbol = currencies[optionsValue] || defaultLocale.currencySymbol;
     }
 
     locales['default'][key] = optionsValue;

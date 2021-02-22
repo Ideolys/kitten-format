@@ -9,4 +9,22 @@ describe('options', () => {
     should(kittenFormat.locale).be.a.Function();
   });
 
+  it('should set correct currency symbol : setOption', () => {
+    should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 €');
+    kittenFormat.setOption('currency', 'CHF');
+    should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 CHF');
+    kittenFormat.setOption('currency', 'GBP');
+    should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 £');
+    kittenFormat.setOption('currency', 'TEST');
+    should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 €');
+  });
 });
+
+/**
+ * Sanitize spaces
+ * @param {String} str
+ * @return {String}
+ */
+function sanitizeSpaces (str) {
+  return str.replace(/\s/, ' ');
+}

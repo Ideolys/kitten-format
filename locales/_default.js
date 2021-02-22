@@ -1,7 +1,9 @@
+import currencies from '../lib/currencies';
+
 export default {
   locale         : 'fr-FR',
   currency       : 'EUR',
-  currencySymbol : '€',
+  currencySymbol : currencies.EUR,
   precision      : 2,
   unitPrefixes   : {
     15   : { default : 'P', g : 'GT' },

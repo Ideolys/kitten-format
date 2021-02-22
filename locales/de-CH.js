@@ -1,9 +1,10 @@
-import kittenFormat from 'kitten-format'
+import kittenFormat from 'kitten-format';
+import currencies   from '../lib/currencies';
 
 var locale = {
   locale         : 'de-CH',
   currency       : 'CHF',
-  currencySymbol : 'CHF',
+  currencySymbol : currencies.CHF,
   precision      : 2,
   unitPrefixes   : {
     15   : 'P',

@@ -1,9 +1,11 @@
-import kittenFormat from 'kitten-format'
+import kittenFormat from 'kitten-format';
+import currencies   from '../lib/currencies';
+
 
 var locale = {
   locale         : 'en-GB',
   currency       : 'GBP',
-  currencySymbol : '£',
+  currencySymbol : currencies.GBP,
   precision      : 2,
   unitPrefixes   : {
     15   : 'P',
