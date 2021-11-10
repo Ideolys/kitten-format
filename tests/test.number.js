@@ -110,12 +110,12 @@ describe('number', () => {
       should(sanitizeSpaces(kittenFormat.formatN(20000, _options))).eql('20,000');
     });
 
-    it('should format .99 number at precision 2 ', () => {
+    it('should format decimal number rounding to next integer at precision 2', () => {
       should(kittenFormat.formatN('14.9999', {
         precision : 2
       })).eql('15');
     })
-        
+
     it('should format a number with minimumFractionDigits', () => {
       should(kittenFormat.formatN('14.4596', {
         minimumFractionDigits : 3,
