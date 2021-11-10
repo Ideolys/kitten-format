@@ -114,6 +114,13 @@ describe('number', () => {
       should(kittenFormat.formatN('14.9999', {
         precision : 2
       })).eql('15');
+    })
+        
+    it('should format a number with minimumFractionDigits', () => {
+      should(kittenFormat.formatN('14.4596', {
+        minimumFractionDigits : 3,
+        precision             : 3
+      })).eql('14,460');
     });
 
     it('should format a number with minimumFractionDigits', () => {
