@@ -172,7 +172,13 @@
     }
 
     if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
-      fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '').slice(2);
+      fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '');
+      
+      if (Number(fraction) === 1) {
+        res = Number(res) + 1 + '';
+      }
+      
+      fraction = fraction.slice(2);
     }
 
     if (options.minimumFractionDigits != null) {
