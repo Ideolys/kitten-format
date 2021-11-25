@@ -116,6 +116,12 @@ describe('number', () => {
       })).eql('15');
     })
 
+    it('should format decimal number with large decimal parts', () => {
+      should(kittenFormat.formatN('23516.9979741', {
+        precision : 2
+      })).eql('23 517');
+    });
+
     it('should format a number with minimumFractionDigits', () => {
       should(kittenFormat.formatN('14.4596', {
         minimumFractionDigits : 3,
