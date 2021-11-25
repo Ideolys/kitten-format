@@ -161,6 +161,17 @@
 
     let thousandIterator = 0;
     let res              = '';
+
+    if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
+      fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '');
+
+      if (Number(fraction) === 1) {
+        decimal = Number(decimal) + 1 + '';
+      }
+
+      fraction = fraction.slice(2);
+    }
+
     for (let i = decimal.length - 1; i >= 0; i--) {
       res = decimal[i] + res;
       thousandIterator++;
@@ -169,16 +180,6 @@
         res = thousandSeparator + res;
         thousandIterator = 0;
       }
-    }
-
-    if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
-      fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '');
-      
-      if (Number(fraction) === 1) {
-        res = Number(res) + 1 + '';
-      }
-      
-      fraction = fraction.slice(2);
     }
 
     if (options.minimumFractionDigits != null) {
