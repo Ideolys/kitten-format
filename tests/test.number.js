@@ -431,7 +431,7 @@ describe('number', () => {
     });
 
     it('should set percentage of a string', () => {
-      should(kittenFormat.percent('123')).eql('123%');
+      should(kittenFormat.percent('0.1')).eql('10%');
     });
 
     it('should not set percentage of a string (NaN)', () => {
@@ -453,8 +453,29 @@ describe('number', () => {
       should(sanitizeSpaces(kittenFormat.percent(0.193446, _options))).eql('19.345%');
     });
 
-    it('should set percentage of a number > 1', () => {
-      should(sanitizeSpaces(kittenFormat.percent(12.56))).eql('12,56%');
+    it('should set percentage of a number = 1', () => {
+      should(sanitizeSpaces(kittenFormat.percent(1))).eql('100%');
+    });
+
+    it('should set percentage of a number > 1 with isAlreadyPercentageNumber', () => {
+      var _options = {
+        isAlreadyPercentageNumber : true
+      };
+      should(sanitizeSpaces(kittenFormat.percent(12.56, _options))).eql('12,56%');
+    });
+
+    it('should set percentage of a number = 1 with isAlreadyPercentageNumber', () => {
+      var _options = {
+        isAlreadyPercentageNumber : true
+      };
+      should(sanitizeSpaces(kittenFormat.percent(1, _options))).eql('1%');
+    });
+
+    it('should set percentage of a string of a number > 1 with isAlreadyPercentageNumber', () => {
+      var _options = {
+        isAlreadyPercentageNumber : true
+      };
+      should(kittenFormat.percent('123', _options)).eql('123%');
     });
 
     it('should be fast', () => {
