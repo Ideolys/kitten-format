@@ -139,7 +139,7 @@ Set percentage of a number
     precision : Int, // number of decimal value
   }
 
-  kittenFormat.percent(18.45);
+  kittenFormat.percent(18.45, { isAlreadyPercentageNumber : true });
 
   // res: '18,45%'
 ```
