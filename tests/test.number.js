@@ -453,6 +453,10 @@ describe('number', () => {
       should(sanitizeSpaces(kittenFormat.percent(0.193446, _options))).eql('19.345%');
     });
 
+    it('should set percentage of a number = 1', () => {
+      should(sanitizeSpaces(kittenFormat.percent(1))).eql('100%');
+    });
+
     it('should set percentage of a number > 1 with isAlreadyPercentageNumber', () => {
       var _options = {
         isAlreadyPercentageNumber : true

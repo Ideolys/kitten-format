@@ -361,7 +361,7 @@
    * @param {Number} value
    * @param {Object} { isAlreadyPercentageNumber : {Boolean}  }
    */
-  function percent (value, option) {
+  function percent (value, options) {
     if (value == null) {
       return value;
     }
@@ -372,7 +372,7 @@
 
     var _value = value * 100;
 
-    if (option && option.isAlreadyPercentageNumber) {
+    if (options && options.isAlreadyPercentageNumber) {
       _value = value;
     }
 
