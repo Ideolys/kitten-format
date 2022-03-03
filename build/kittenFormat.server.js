@@ -145,21 +145,21 @@ function toFixed (value, precision) {
  *  options.minimumFractionDigits
  * @returns {Intl}
  */
-function format (locale$$1, value, options) {
-  locale$$1 = getLocale(locale$$1);
+function format (locale, value, options) {
+  locale = getLocale(locale);
 
   value = value + '';
 
   let number            = value.split('.');
   let decimal           = number[0];
   let fraction          = number[1] || '';
-  let thousandSeparator = locale$$1.thousandSeparator || ' ';
+  let thousandSeparator = locale.thousandSeparator || ' ';
 
   let thousandIterator = 0;
   let res              = '';
 
   if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
-    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '');
+    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale.precision)) + '');
 
     if (Number(fraction) === 1) {
       decimal = Number(decimal) + 1 + '';
@@ -187,15 +187,15 @@ function format (locale$$1, value, options) {
   }
 
   if (fraction.length) {
-    res += locale$$1.decimalSeparator + fraction;
+    res += locale.decimalSeparator + fraction;
   }
 
   if (options.style === 'currency') {
-    if (locale$$1.isCurrencyFirst === true) {
-      res = locale$$1.currencySymbol + res;
+    if (locale.isCurrencyFirst === true) {
+      res = locale.currencySymbol + res;
     }
     else {
-      res += ' ' + locale$$1.currencySymbol;
+      res += ' ' + locale.currencySymbol;
     }
   }
 
@@ -246,7 +246,7 @@ function averageNumber (value, options) {
  * @param {Object} options
  */
 function percentNumber (value, options) {
-  let parameters = percent(value);
+  let parameters = percent(value, options);
 
   if (parameters == null || typeof parameters !== 'object') {
     return parameters;
@@ -355,8 +355,9 @@ function averageN (value, options) {
 /**
  * Set a number as a percentage
  * @param {Number} value
+ * @param {Object} { isAlreadyPercentageNumber : {Boolean}  }
  */
-function percent (value) {
+function percent (value, option) {
   if (value == null) {
     return value;
   }
@@ -367,7 +368,7 @@ function percent (value) {
 
   var _value = value * 100;
 
-  if (value > 1) {
+  if (option && option.isAlreadyPercentageNumber) {
     _value = value;
   }
 
