@@ -129,6 +129,12 @@ describe('number', () => {
       })).eql('14,460');
     });
 
+    it('should format a number with precision = 0', () => {
+      should(kittenFormat.formatN('14.4596', {
+        precision : 0
+      })).eql('14');
+    });
+
     it('should format a number with minimumFractionDigits', () => {
       should(kittenFormat.formatN('14.4596', {
         precision      : 3,
@@ -451,6 +457,13 @@ describe('number', () => {
         precision : 3
       };
       should(sanitizeSpaces(kittenFormat.percent(0.193446, _options))).eql('19.345%');
+    });
+
+    it('should set percentage with correct precision', () => {
+      var _options = {
+        precision : 0
+      };
+      should(sanitizeSpaces(kittenFormat.percent(0.09589802868894039, _options))).eql('10%');
     });
 
     it('should set percentage of a number = 1', () => {
