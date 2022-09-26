@@ -1,6 +1,6 @@
 {
   "name": "kitten-format",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "Fast formatters for browsers",
   "main": "build/kittenFormat.server.js",
   "scripts": {
