@@ -164,7 +164,7 @@
     let res              = '';
 
     if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
-      fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits ? options.maximumFractionDigits : locale$$1.precision)) + '');
+      fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits != null ? options.maximumFractionDigits : locale$$1.precision)) + '');
 
       if (Number(fraction) === 1) {
         decimal = Number(decimal) + 1 + '';
@@ -188,7 +188,7 @@
     }
 
     if (options.shouldNotRound === true) {
-      fraction = fraction.slice(0, options.maximumFractionDigits ? options.maximumFractionDigits : fraction.length);
+      fraction = fraction.slice(0, options.maximumFractionDigits != null ? options.maximumFractionDigits : fraction.length);
     }
 
     if (fraction.length) {
@@ -279,7 +279,12 @@
     options = options || {};
 
     var _localeOptions = getLocale(options.locale);
-    var _precision     = options.shouldNotRound ? options.precision : options.precision || _localeOptions.precision;
+    var _precision     = options.precision;
+
+    if (!options.shouldNotRound && (_precision === null || _precision === undefined)) {
+      _precision = _localeOptions.precision;
+    }
+
     var _locale        = options.locale    || _localeOptions.locale;
 
     return {
