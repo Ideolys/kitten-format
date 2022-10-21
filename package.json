@@ -22,5 +22,8 @@
     "rollup-plugin-terser": "^4.0.2",
     "should": "^13.2.3"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }
