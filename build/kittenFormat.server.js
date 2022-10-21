@@ -45,7 +45,9 @@ var currencies = {
   GBP : '£',
   CHF : 'CHF',
   USD : '$',
-  AED : 'AED'
+  AED : 'AED',
+  SAR : 'SAR',
+  XPF : 'XPF'
 };
 
 var defaultLocale = {
@@ -146,21 +148,21 @@ function toFixed (value, precision) {
  *  options.minimumFractionDigits
  * @returns {Intl}
  */
-function format (locale$$1, value, options) {
-  locale$$1 = getLocale(locale$$1);
+function format (locale, value, options) {
+  locale = getLocale(locale);
 
   value = value + '';
 
   let number            = value.split('.');
   let decimal           = number[0];
   let fraction          = number[1] || '';
-  let thousandSeparator = locale$$1.thousandSeparator || ' ';
+  let thousandSeparator = locale.thousandSeparator || ' ';
 
   let thousandIterator = 0;
   let res              = '';
 
   if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
-    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits != null ? options.maximumFractionDigits : locale$$1.precision)) + '');
+    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits != null ? options.maximumFractionDigits : locale.precision)) + '');
 
     if (Number(fraction) === 1) {
       decimal = Number(decimal) + 1 + '';
@@ -188,15 +190,15 @@ function format (locale$$1, value, options) {
   }
 
   if (fraction.length) {
-    res += locale$$1.decimalSeparator + fraction;
+    res += locale.decimalSeparator + fraction;
   }
 
   if (options.style === 'currency') {
-    if (locale$$1.isCurrencyFirst === true) {
-      res = locale$$1.currencySymbol + res;
+    if (locale.isCurrencyFirst === true) {
+      res = locale.currencySymbol + res;
     }
     else {
-      res += ' ' + locale$$1.currencySymbol;
+      res += ' ' + locale.currencySymbol;
     }
   }
 
