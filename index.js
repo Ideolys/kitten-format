@@ -5,7 +5,7 @@ import {
 } from './lib/string';
 import { setOptions, locale, setOption }              from './lib/options';
 import { formatNumber, percentNumber, averageNumber } from './lib/number';
-import { formatCurrency, convC }                      from './lib/currency';
+import { formatCurrency, convC, averageCurrency }     from './lib/currency';
 
 const kittenFormat = {};
 
@@ -27,5 +27,7 @@ kittenFormat.formatC         = formatCurrency;
 kittenFormat.formatCurrency  = formatCurrency;
 kittenFormat.convC           = convC;
 kittenFormat.convertCurrency = convC;
+kittenFormat.averageC         = averageCurrency;
+kittenFormat.averageCurrency  = averageCurrency;
 
 export default kittenFormat;

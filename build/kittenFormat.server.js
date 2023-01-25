@@ -195,10 +195,10 @@ function format (locale$$1, value, options) {
 
   if (options.style === 'currency') {
     if (locale$$1.isCurrencyFirst === true) {
-      res = locale$$1.currencySymbol + res;
+      res = (options.unitPrefix || '') + locale$$1.currencySymbol + res;
     }
     else {
-      res += ' ' + locale$$1.currencySymbol;
+      res += ' ' + (options.unitPrefix || '') + locale$$1.currencySymbol;
     }
   }
 
@@ -311,7 +311,7 @@ function averageN (value, options) {
   var _power = options.power === null || options.power === undefined ? 0 : options.power;
   var _unit  = options.unit;
 
-  if (!_unit) {
+  if (_unit === null || _unit === undefined) {
     return value;
   }
 
@@ -483,6 +483,33 @@ function convC (value, options) {
   return _value * _rates[_target];
 }
 
+/**
+ * Average a currency
+ * @param {Number} value
+ * @param {Object} options
+ * @returns {String}
+ */
+function averageCurrency (value, options) {
+  if (!options) {
+    options = {};
+  }
+
+  options.unit     = '';
+  options.maxPower = 3;
+
+  const average = averageN(value, options);
+  let parameters = formatC(value, options);
+
+  if (parameters == null || typeof parameters !== 'object') {
+    return parameters;
+  }
+
+  parameters.unitPrefix = average.unit;
+  parameters.style      = 'currency';
+
+  return format(parameters.locale, average.value, parameters);
+}
+
 const kittenFormat = {};
 
 kittenFormat.setOptions = setOptions;
@@ -503,5 +530,7 @@ kittenFormat.formatC         = formatCurrency;
 kittenFormat.formatCurrency  = formatCurrency;
 kittenFormat.convC           = convC;
 kittenFormat.convertCurrency = convC;
+kittenFormat.averageC         = averageCurrency;
+kittenFormat.averageCurrency  = averageCurrency;
 
 module.exports = kittenFormat;

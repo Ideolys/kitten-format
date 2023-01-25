@@ -321,4 +321,69 @@ describe('currency', () => {
     });
   });
 
+  describe('averageC', () => {
+    it ('should be defined', () => {
+      should(kittenFormat.averageC).be.a.Function();
+      should(kittenFormat.averageCurrency).be.a.Function();
+    });
+
+    it('should not average a number if no value is given', () => {
+      should(kittenFormat.averageC()).eql(undefined);
+    });
+
+    it('should not average a number if null value is given', () => {
+      should(kittenFormat.averageC(null)).eql(null);
+    });
+
+    it('should not average a number if no unit is given', () => {
+      should(kittenFormat.averageC(100)).eql('100 €');
+    });
+
+    it('should not average a string (NaN)', () => {
+      should(kittenFormat.averageC('123a')).eql('-');
+    });
+
+    it('should average a string', () => {
+      should(kittenFormat.averageC('123')).eql('123 €');
+    });
+
+    it('should average without precising the source power', () => {
+      should(kittenFormat.averageC(1001.24, {
+        precision : 1
+      })).eql('1 k€');
+    });
+
+    it('should average 10^0', () => {
+      should(kittenFormat.averageC(1001.24, {
+        power     : 0,
+        precision : 1
+      })).eql('1 k€');
+    });
+
+    it('should average if it is < 1', () => {
+      should(kittenFormat.averageC(0.243, {
+        power     : 3,
+        precision : 1
+      })).eql('243 €');
+    });
+
+    it('should format for another locale', () => {
+      should(kittenFormat.averageC(101.24, {
+        locale    : 'en-GB',
+        power     : 0,
+        unit      : 'g',
+        precision : 1
+      })).eql('£101.24');
+    });
+
+    it('should format for another locale 10^3', () => {
+      should(kittenFormat.averageC(1010.24, {
+        locale    : 'en-GB',
+        power     : 0,
+        unit      : 'g',
+        precision : 1
+      })).eql('k£1.01');
+    });
+  });
+
 });

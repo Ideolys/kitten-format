@@ -213,6 +213,26 @@ Convert a currency to another one
   }
 ```
 
+### kittenFormat.averageC (kittenFormat.averageCurrency)
+
+Average a currency to default or specified locale.
+
+It can only average to € or k€.
+
+```js
+  kittenFormat.averageC(1234, {
+    locale    : 'fr-FR'
+  });
+
+  // res: '1,2 k€'
+
+  // options
+  {
+    locale    : String,
+    power     : Int // current unit
+  }
+```
+
 ### Strings
 
 ### kittenFormat.lowerCase
