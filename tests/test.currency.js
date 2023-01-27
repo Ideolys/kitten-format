@@ -343,6 +343,10 @@ describe('currency', () => {
       should(kittenFormat.averageC('123a')).eql('-');
     });
 
+    it('should average 0', () => {
+      should(kittenFormat.averageC(0)).eql('0 €');
+    });
+
     it('should average a string', () => {
       should(kittenFormat.averageC('123')).eql('123 €');
     });
