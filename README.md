@@ -20,10 +20,22 @@ At runtime, kitten-format will try to set the default locale as the one defined 
 
 **Available locales**
 
-Lang              | Locales
-------------------|--------
-French            | `fr-FR`
-English GB        | `en-GB`
+Lang                      | Locales
+--------------------------|--------
+Arabic (U.A.E.)           | `ar-AE`
+Arabic (Egypt)            | `ar-EG`
+Arabic (Morocco)          | `ar-MA`
+Arabic (Saudi Arabia)     | `ar-SA`
+German (Switzerland)      | `de-CH`
+English (United Kingdom)  | `en-GB`
+English (United States)   | `en-US`
+Spanish (Spain)           | `es-ES`
+French (Switzerland)      | `fr-CH`
+French (French)           | `fr-FR`
+French (French Polynesia) | `fr-PF`
+Italian (Switzerland)     | `it-CH`
+
+Default is `fr-FR`
 
 ## Use cases
 
@@ -46,7 +58,8 @@ Set default locale options.
       '-3' : 'm',
       '-6' : 'μ',
       '-9' : 'n'
-    }
+    },
+    isCurrencyFirst   : true
   });
 ```
 
@@ -145,6 +158,14 @@ Set percentage of a number
 ```
 
 ### Currencies
+
+### kittenFormat.getCurrency
+
+```js
+  kittenFormat.getCurrency('USD');
+
+  // res: '$'
+```
 
 ### kittenFormat.formatC (kittenFormat.formatCurrency)
 

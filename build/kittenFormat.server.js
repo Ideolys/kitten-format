@@ -43,11 +43,13 @@ function upperCaseFirstChar (value) {
 var currencies = {
   EUR : '€',
   GBP : '£',
-  CHF : 'CHF',
+  CHF : 'franc',
   USD : '$',
-  AED : 'AED',
-  SAR : 'SAR',
-  XPF : 'XPF'
+  AED : 'DH',
+  SAR : 'riyāl',
+  XPF : 'F',
+  MAD : 'MAD',
+  EGP : 'E £'
 };
 
 var defaultLocale = {
@@ -148,21 +150,21 @@ function toFixed (value, precision) {
  *  options.minimumFractionDigits
  * @returns {Intl}
  */
-function format (locale$$1, value, options) {
-  locale$$1 = getLocale(locale$$1);
+function format (locale, value, options) {
+  locale = getLocale(locale);
 
   value = value + '';
 
   let number            = value.split('.');
   let decimal           = number[0];
   let fraction          = number[1] || '';
-  let thousandSeparator = locale$$1.thousandSeparator || ' ';
+  let thousandSeparator = locale.thousandSeparator || ' ';
 
   let thousandIterator = 0;
   let res              = '';
 
   if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
-    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits != null ? options.maximumFractionDigits : locale$$1.precision)) + '');
+    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits != null ? options.maximumFractionDigits : locale.precision)) + '');
 
     if (Number(fraction) === 1) {
       decimal = Number(decimal) + 1 + '';
@@ -190,15 +192,15 @@ function format (locale$$1, value, options) {
   }
 
   if (fraction.length) {
-    res += locale$$1.decimalSeparator + fraction;
+    res += locale.decimalSeparator + fraction;
   }
 
   if (options.style === 'currency') {
-    if (locale$$1.isCurrencyFirst === true) {
-      res = (options.unitPrefix || '') + locale$$1.currencySymbol + res;
+    if (locale.isCurrencyFirst === true) {
+      res = (options.unitPrefix || '') + locale.currencySymbol + res;
     }
     else {
-      res += ' ' + (options.unitPrefix || '') + locale$$1.currencySymbol;
+      res += ' ' + (options.unitPrefix || '') + locale.currencySymbol;
     }
   }
 
@@ -386,6 +388,21 @@ function percent (value, options) {
 }
 
 /**
+ * get currency symbol from ISO 4217
+ * @param {Number} isoValue
+ * @returns {String} currency symbol
+ */
+function getCurrencySymbol (isoValue) {
+  let currencySymbol = currencies[isoValue];
+
+  if (!currencySymbol) {
+    return getLocale('default').currencySymbol;
+  }
+
+  return currencySymbol;
+}
+
+/**
  * Format currency
  * @param {Number} value
  * @param {Object} options
@@ -526,11 +543,12 @@ kittenFormat.percent       = percentNumber;
 kittenFormat.averageN      = averageNumber;
 kittenFormat.averageNumber = averageNumber;
 
-kittenFormat.formatC         = formatCurrency;
-kittenFormat.formatCurrency  = formatCurrency;
-kittenFormat.convC           = convC;
-kittenFormat.convertCurrency = convC;
-kittenFormat.averageC         = averageCurrency;
-kittenFormat.averageCurrency  = averageCurrency;
+kittenFormat.getCurrencySymbol  = getCurrencySymbol;
+kittenFormat.formatC            = formatCurrency;
+kittenFormat.formatCurrency     = formatCurrency;
+kittenFormat.convC              = convC;
+kittenFormat.convertCurrency    = convC;
+kittenFormat.averageC           = averageCurrency;
+kittenFormat.averageCurrency    = averageCurrency;
 
 module.exports = kittenFormat;

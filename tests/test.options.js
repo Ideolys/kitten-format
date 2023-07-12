@@ -11,8 +11,10 @@ describe('options', () => {
 
   it('should set correct currency symbol : setOption', () => {
     should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 €');
+    kittenFormat.setOption('currency', 'MAD');
+    should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 MAD');
     kittenFormat.setOption('currency', 'CHF');
-    should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 CHF');
+    should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 franc');
     kittenFormat.setOption('currency', 'GBP');
     should(sanitizeSpaces(kittenFormat.formatC(200))).eql('200,00 £');
     kittenFormat.setOption('currency', 'TEST');
