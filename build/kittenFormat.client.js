@@ -52,8 +52,8 @@
     AED : 'DH',
     SAR : 'riyāl',
     XPF : 'F',
-    MAD : 'DH',
-    EGP : 'EGP'
+    MAD : 'MAD',
+    EGP : 'E £'
   };
 
   var defaultLocale = {
