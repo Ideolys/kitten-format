@@ -47,12 +47,12 @@
   var currencies = {
     EUR : '€',
     GBP : '£',
-    CHF : 'CHF',
+    CHF : 'franc',
     USD : '$',
-    AED : 'AED',
-    SAR : 'SAR',
-    XPF : 'XPF',
-    DH  : 'DH',
+    AED : 'DH',
+    SAR : 'riyāl',
+    XPF : 'F',
+    MAD : 'DH',
     EGP : 'EGP'
   };
 
@@ -392,6 +392,21 @@
   }
 
   /**
+   * get currency symbol from ISO 4217
+   * @param {Number} isoValue
+   * @returns {String} currency symbol
+   */
+  function getCurrencySymbol (isoValue) {
+    let currencySymbol = currencies[isoValue];
+
+    if (!currencySymbol) {
+      return getLocale('default').currencySymbol;
+    }
+
+    return currencySymbol;
+  }
+
+  /**
    * Format currency
    * @param {Number} value
    * @param {Object} options
@@ -532,12 +547,13 @@
   kittenFormat.averageN      = averageNumber;
   kittenFormat.averageNumber = averageNumber;
 
-  kittenFormat.formatC         = formatCurrency;
-  kittenFormat.formatCurrency  = formatCurrency;
-  kittenFormat.convC           = convC;
-  kittenFormat.convertCurrency = convC;
-  kittenFormat.averageC         = averageCurrency;
-  kittenFormat.averageCurrency  = averageCurrency;
+  kittenFormat.getCurrencySymbol  = getCurrencySymbol;
+  kittenFormat.formatC            = formatCurrency;
+  kittenFormat.formatCurrency     = formatCurrency;
+  kittenFormat.convC              = convC;
+  kittenFormat.convertCurrency    = convC;
+  kittenFormat.averageC           = averageCurrency;
+  kittenFormat.averageCurrency    = averageCurrency;
 
   return kittenFormat;
 

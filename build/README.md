@@ -159,6 +159,14 @@ Set percentage of a number
 
 ### Currencies
 
+### kittenFormat.getCurrency
+
+```js
+  kittenFormat.getCurrency('USD');
+
+  // res: '$'
+```
+
 ### kittenFormat.formatC (kittenFormat.formatCurrency)
 
 Format a currency to specified locale and/or currency. If convert options are specified, it makes the conversion.

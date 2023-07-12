@@ -13,6 +13,28 @@ function sanitizeSpaces (str) {
 
 describe('currency', () => {
 
+  describe('getCurrencySymbol', () => {
+    it ('should be defined', () => {
+      should(kittenFormat.getCurrencySymbol).be.a.Function();
+    });
+
+    it ('should retrun default currency symbol if ISO 4217 code does not exists', () => {
+      should(kittenFormat.getCurrencySymbol()).eql('€');
+      should(kittenFormat.getCurrencySymbol(null)).eql('€');
+      should(kittenFormat.getCurrencySymbol('ZZZZZZ')).eql('€');
+      should(kittenFormat.getCurrencySymbol(36)).eql('€');
+    });
+
+    it ('should retrun currency symbol', () => {
+      should(kittenFormat.getCurrencySymbol('USD')).eql('$');
+    });
+
+    it ('should retrun ISO 4217 code if currency symbol === ISO 4217 code', () => {
+      should(kittenFormat.getCurrencySymbol('MAD')).eql('MAD');
+    });
+
+  });
+
   describe('formatC', () => {
     it ('should be defined', () => {
       should(kittenFormat.formatC).be.a.Function();
