@@ -150,21 +150,21 @@ function toFixed (value, precision) {
  *  options.minimumFractionDigits
  * @returns {Intl}
  */
-function format (locale, value, options) {
-  locale = getLocale(locale);
+function format (locale$$1, value, options) {
+  locale$$1 = getLocale(locale$$1);
 
   value = value + '';
 
   let number            = value.split('.');
   let decimal           = number[0];
   let fraction          = number[1] || '';
-  let thousandSeparator = locale.thousandSeparator || ' ';
+  let thousandSeparator = locale$$1.thousandSeparator || ' ';
 
   let thousandIterator = 0;
   let res              = '';
 
   if (fraction[fraction.length - 1] !== '0' && options.shouldNotRound !== true) {
-    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits != null ? options.maximumFractionDigits : locale.precision)) + '');
+    fraction = (toFixed(Number('0.' + fraction, 10), (options.maximumFractionDigits != null ? options.maximumFractionDigits : locale$$1.precision)) + '');
 
     if (Number(fraction) === 1) {
       decimal = Number(decimal) + 1 + '';
@@ -192,15 +192,15 @@ function format (locale, value, options) {
   }
 
   if (fraction.length) {
-    res += locale.decimalSeparator + fraction;
+    res += locale$$1.decimalSeparator + fraction;
   }
 
   if (options.style === 'currency') {
-    if (locale.isCurrencyFirst === true) {
-      res = (options.unitPrefix || '') + locale.currencySymbol + res;
+    if (locale$$1.isCurrencyFirst === true) {
+      res = (options.unitPrefix || '') + locale$$1.currencySymbol + res;
     }
     else {
-      res += ' ' + (options.unitPrefix || '') + locale.currencySymbol;
+      res += ' ' + (options.unitPrefix || '') + locale$$1.currencySymbol;
     }
   }
 
