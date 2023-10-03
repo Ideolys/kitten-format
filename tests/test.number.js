@@ -181,6 +181,18 @@ describe('number', () => {
       should(sanitizeSpaces(kittenFormat.formatN(20000.99, _options))).eql('20,000.99');
     });
 
+    it("should correctly format the thousand separator", () => {
+      var _options = {
+        locale : 'en-GB',
+      };
+      should(sanitizeSpaces(kittenFormat.formatN(200, _options))).eql('200');
+      should(sanitizeSpaces(kittenFormat.formatN(20000, _options))).eql('20,000');
+      should(sanitizeSpaces(kittenFormat.formatN(2000000, _options))).eql('2,000,000');
+      should(sanitizeSpaces(kittenFormat.formatN(-200, _options))).eql('-200');
+      should(sanitizeSpaces(kittenFormat.formatN(-20000, _options))).eql('-20,000');
+      should(sanitizeSpaces(kittenFormat.formatN(-2000000, _options))).eql('-2,000,000');
+    });
+
     it('should be fast', () => {
       var _locales        = ['fr-FR', 'fr-CHF', 'en-GB'];
       var _executionTimes = [];
