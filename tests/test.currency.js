@@ -188,6 +188,18 @@ describe('currency', () => {
       should(sanitizeSpaces(kittenFormat.formatC(200, _options))).eql('200,00 €');
     });
 
+    it("should correctly format the thousand separator", () => {
+      var _options = {
+        locale : 'en-GB',
+      };
+      should(sanitizeSpaces(kittenFormat.formatC(200, _options))).eql('£200.00');
+      should(sanitizeSpaces(kittenFormat.formatC(20000, _options))).eql('£20,000.00');
+      should(sanitizeSpaces(kittenFormat.formatC(2000000, _options))).eql('£2,000,000.00');
+      should(sanitizeSpaces(kittenFormat.formatC(-200, _options))).eql('£-200.00');
+      should(sanitizeSpaces(kittenFormat.formatC(-20000, _options))).eql('£-20,000.00');
+      should(sanitizeSpaces(kittenFormat.formatC(-2000000, _options))).eql('£-2,000,000.00');
+    });
+
     it('should be fast', () => {
       var _locales        = ['fr-FR', 'fr-CHF', 'en-GB'];
       var _executionTimes = [];
