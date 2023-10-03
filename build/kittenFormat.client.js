@@ -177,11 +177,13 @@
       fraction = fraction.slice(2);
     }
 
+    // Don't count the negative sign as a digit when adding the thousand separator sign
+    const decimalIndexStart = decimal[0] === '-' ? 1 : 0;
     for (let i = decimal.length - 1; i >= 0; i--) {
       res = decimal[i] + res;
       thousandIterator++;
 
-      if (thousandIterator === 3 && i-1 >= 0) {
+      if (thousandIterator === 3 && i - 1 >= decimalIndexStart) {
         res = thousandSeparator + res;
         thousandIterator = 0;
       }
