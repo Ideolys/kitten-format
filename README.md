@@ -31,9 +31,10 @@ English (United Kingdom)  | `en-GB`
 English (United States)   | `en-US`
 Spanish (Spain)           | `es-ES`
 French (Switzerland)      | `fr-CH`
-French (French)           | `fr-FR`
+French (France)           | `fr-FR`
 French (French Polynesia) | `fr-PF`
 Italian (Switzerland)     | `it-CH`
+Italian (Italia)          | `it-IT`
 
 Default is `fr-FR`
 
