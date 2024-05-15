@@ -30,6 +30,7 @@ German (Switzerland)      | `de-CH`
 English (United Kingdom)  | `en-GB`
 English (United States)   | `en-US`
 Spanish (Spain)           | `es-ES`
+Spanish (Chile)           | `es-CL`
 French (Switzerland)      | `fr-CH`
 French (France)           | `fr-FR`
 French (French Polynesia) | `fr-PF`

@@ -53,7 +53,8 @@
     SAR : 'riyāl',
     XPF : 'F',
     MAD : 'MAD',
-    EGP : 'E £'
+    EGP : 'E £',
+    CLP : '$',
   };
 
   var defaultLocale = {
