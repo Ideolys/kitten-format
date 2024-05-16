@@ -79,7 +79,7 @@ async function build(input, outputFile, locale) {
   const outputOptions = {
     file    : outputFile,
     format  : 'umd',
-    name    : 'kittenFormat_' + locale,
+    name    : 'kittenFormat_' + locale.toLowerCase(),
     globals : {
       'kitten-format' : 'kittenFormat'
     }
