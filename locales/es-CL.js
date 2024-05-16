@@ -17,8 +17,8 @@ var locale = {
     '-6' : 'μ',
     '-9' : 'n'
   },
-  thousandSeparator : ',',
-  decimalSeparator  : '.',
+  thousandSeparator : ' ',
+  decimalSeparator  : ',',
   isCurrencyFirst   : true
 };
 
